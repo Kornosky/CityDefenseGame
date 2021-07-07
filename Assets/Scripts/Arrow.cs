@@ -54,13 +54,8 @@ public class Arrow : MonoBehaviour
 
     private void Attack(Collision2D target)
     {
-        if (target.gameObject?.GetComponent<Rigidbody2D>())
-            target.gameObject?.GetComponent<Rigidbody2D>()?.AddForce(
-                                                                    new Vector2((target.gameObject.transform.position - transform.position).normalized.x * ownerInfo.knockback.x,
-                                                                    ownerInfo.knockback.y)
-                                                                    , ForceMode2D.Impulse);
-
-        target.gameObject.GetComponent<IDamageable>().TakeDamage(ownerInfo.damage);
+        Unit unit = target.gameObject.GetComponent<Unit>();
+        unit?.GetHit(ownerInfo.damage, transform.position, ownerInfo.knockback);
 
         Destroy(gameObject);
     }

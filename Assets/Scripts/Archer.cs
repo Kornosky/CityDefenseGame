@@ -27,7 +27,7 @@ public class Archer : Unit
             return;
         isActing = true;
         Debug.Log("Attack!");
-        anim.SetTrigger("Attack");
+        stateMachine.SetTrigger("Attack");
     }
     protected override void Action()
     {

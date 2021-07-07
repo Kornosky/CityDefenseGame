@@ -17,9 +17,7 @@ public abstract class UIBar : MonoBehaviour
     public abstract void Init(UnitScriptableObject info);
     public void UpdateValue(float change)
     {
-        targetValue += change;
-        
-        Mathf.Clamp(targetValue, 0, slider.maxValue);
+        targetValue = Mathf.Clamp(targetValue + change, 0, slider.maxValue);
         //add effects
         UpdateEffect(change);
         previousValue = targetValue;

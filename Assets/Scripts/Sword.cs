@@ -27,7 +27,7 @@ public class Sword : Unit
             return;
         isActing = true;
         Debug.Log("Attack!");
-        anim.SetTrigger("Attack");     
+        stateMachine.SetTrigger("Attack");     
 
     }
     protected override void Action()
@@ -42,14 +42,8 @@ public class Sword : Unit
             if(targets != null)
                 foreach(var targ in targets)
                 {
-                    targ.gameObject?.GetComponent<Rigidbody2D>()?.AddForce(
-                                                                       new Vector2((targ.gameObject.transform.position - transform.position).normalized.x * info.knockback.x,
-                                                                       info.knockback.y)
-                                                                       , ForceMode2D.Impulse);
-
-                    targ.gameObject.GetComponent<IDamageable>().TakeDamage(info.damage);
+                    targ.GetHit(info.damage, transform.position, info.knockback);
                 }
-
         }
         else
         {
@@ -57,12 +51,7 @@ public class Sword : Unit
 
             if (target != null)
             {
-                target.gameObject?.GetComponent<Rigidbody2D>()?.AddForce(
-                                                                        new Vector2((target.gameObject.transform.position - transform.position).normalized.x * info.knockback.x,
-                                                                        info.knockback.y)
-                                                                        , ForceMode2D.Impulse);
-            
-                target.gameObject.GetComponent<IDamageable>().TakeDamage(info.damage);
+                target.GetHit(info.damage, transform.position, info.knockback);
             }
         }
         //Still knockback and wait even if there was no target (empty swing)

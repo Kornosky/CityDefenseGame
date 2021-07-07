@@ -79,7 +79,7 @@ public class Turret : Structure, IPlaceable
         if (isActing)
             return;
         Debug.Log("Attack!");
-        anim.SetTrigger("Attack");
+        stateMachine.SetTrigger("Attack");
         Action();
     }
     protected override void Action()

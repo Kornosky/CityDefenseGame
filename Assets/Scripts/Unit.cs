@@ -9,7 +9,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public bool isEnemy;
     [SerializeField] protected Healthbar hpBar;
     protected SpriteRenderer spriteRenderer;
-    protected Animator anim;
+    protected Animator stateMachine;
     protected Rigidbody2D rb;
     protected Transform goalTarget;
     protected ActionCollider actionCollider;
@@ -27,12 +27,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float maxVel = 1.0f;
     public float maxForce = 20.0f;
     public float gain = 5f;
+    public bool isInvicible;
 
     protected virtual void Start()
     {
         actionCollider.actionEvent.AddListener(TryAction);
         unitAnimator?.actionEvent.AddListener(Action);
-        unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
+       // unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
     }
     protected virtual void Flipped(bool isFacingLeft)
     {
@@ -63,11 +64,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
             if (rb.velocity.magnitude == Mathf.Epsilon)
             {
-                anim.SetBool("Moving", false);
+                stateMachine.SetBool("Moving", false);
             }
             else
             {
-                anim.SetBool("Moving", true);
+                stateMachine.SetBool("Moving", true);
             }
         }
        
@@ -92,7 +93,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         actionCollider ??= GetComponentInChildren<ActionCollider>();
 
-        anim ??= GetComponentInChildren<Animator>();
+        stateMachine ??= GetComponentInChildren<Animator>();
         unitAnimator ??= GetComponentInChildren<UnitAnimator>();
         rb ??= GetComponent<Rigidbody2D>();
         spriteRenderer ??= GetComponentInChildren<SpriteRenderer>(true);
@@ -104,6 +105,23 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected void ChangeTarget(Transform location)
     {
         goalTarget = location;
+    }
+    public void DropCoin()
+    {
+        int earned = (int)(info.cost * GameManager.Instance.percentageEarnedFromKill);
+        //  GameManager.Instance.Money += earned;
+        for (int i = 0; i < earned; i++)
+            Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
+    }
+    public void DestroyInteraction()
+    { 
+        Destroy(rb);
+        Destroy(GetComponent<Collider2D>());
+        Destroy(actionCollider.gameObject);
+    }
+    public void Invincibility(bool isInvincible)
+    {
+        this.isInvicible = isInvincible;
     }
     public virtual void Init(bool isEnemy, UnitScriptableObject info = null)
     {
@@ -188,31 +206,43 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
         if (isEnemy)
         {
-            GameManager.Instance.Money += (int) (info.cost * GameManager.Instance.percentageEarnedFromKill);
+            int earned = (int)(info.cost * GameManager.Instance.percentageEarnedFromKill);
+          //  GameManager.Instance.Money += earned;
+            for(int i = 0; i < earned; i++)
+                Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
         }
 
         if (info.hasDeathAnimation)
         {
-            //remove colliders
-            Destroy(rb);
-            Destroy(GetComponent<Collider2D>());
-            Destroy(actionCollider.gameObject);
+            DestroyInteraction();
             //Play animation 
-            anim.SetTrigger("Death");
+            stateMachine.SetTrigger("Death");
         }
         else
             Destroy(gameObject);
     }
-    //Destroy method called from animation event
+    public virtual void GetHit(int damage, Vector3 sourcePos, Vector2 knockback)
+    {
+        if (isInvicible)
+            return;
 
+        rb.AddForce(new Vector2((gameObject.transform.position - sourcePos).normalized.x * knockback.x, knockback.y), ForceMode2D.Impulse);
+        TakeDamage(damage);
+    }
     public virtual bool TakeDamage(int dmg)
     {
+        if (isInvicible)
+            return false;
 
         hpBar.UpdateValue(-dmg);
         if (hpBar.GetValue() <= 0)
         {
             //is now dead
-            Death();
+            
+            if(stateMachine)
+                stateMachine.SetTrigger("Death");
+            else
+                Death();
             return true;
         }
 
@@ -222,14 +252,14 @@ public abstract class Unit : MonoBehaviour, IDamageable
             //reset so they can attack
             isActing = false;
 
-            anim?.SetTrigger("Hit");
+            stateMachine?.SetTrigger("Hit");
         }//less likely based off damage difference
      
         return false;
 
     }
 
-    protected virtual void FinishedHit()
+    public virtual void FinishedHit()
     {
         isActing = false;
         TryAction();
@@ -238,7 +268,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         GameManager.Instance?.activeUnits?.Remove(this);
         PlayerRecording.Instance?.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, -1);
-
     }
     //Each unit has a unique action
     protected abstract void Action();

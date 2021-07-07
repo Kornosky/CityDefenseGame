@@ -20,7 +20,7 @@ MonoBehaviour:
   buildTime: 0
   workersRequired: 0
   cooldownPeriod: 2
-  cost: 5
+  cost: 1
   health: 5
   damage: 2
   knockback: {x: 0.7, y: 0.84}
@@ -28,11 +28,29 @@ MonoBehaviour:
   moveSpeed: 1.47
   canMoveWhileActing: 0
   hasDeathAnimation: 1
+  actionDmgInterruptThreshold: 0
+  hitsAllInRange: 0
   actionCD: 0.7
-  value: 0
   hasSpecial: 0
   specialCost: 0
   isRanged: 0
   range: 0
   projectileSpeed: 0
   accuracy: 0
+  u_buildTime: 0
+  u_workersRequired: 0
+  u_cooldownPeriod: 0
+  u_cost: 0
+  u_health: 0
+  u_damage: 0
+  u_knockback: {x: 0, y: 0}
+  u_recoil: {x: 0, y: 0}
+  u_moveSpeed: 0
+  u_actionDmgInterruptThreshold: 0
+  u_actionCD: 0
+  u_hasSpecial: 0
+  u_specialCost: 0
+  u_isRanged: 0
+  u_range: 0
+  u_projectileSpeed: 0
+  u_accuracy: 0
