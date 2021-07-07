@@ -1,0 +1,90 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using Pixelplacement.TweenSystem;
+/// <summary>
+/// Needs to be built by worker
+/// </summary>
+public abstract class Structure : Unit
+{
+    [Header("Structure Class")]
+    private bool isBuilt;
+    private List<Worker> workers = new List<Worker>();
+    public float buildProgress;
+    protected bool isActive;
+
+    [SerializeField] BuildBar buildBar;
+    [SerializeField] WorkerTrigger workerTrigger;
+
+    public override void Init(bool isEnemy, UnitScriptableObject info = null)
+    {
+        //TODO remove this nonesense
+        base.Init(isEnemy, info);
+        this.isEnemy = isEnemy;
+       // ChangeLayer(isEnemy, "Placing");
+    }
+    protected override void Awake()
+    {
+        base.Awake();
+        buildBar ??= GetComponentInChildren<BuildBar>();
+        workerTrigger ??= GetComponentInChildren<WorkerTrigger>();
+        buildProgress = 0;
+    }   
+    protected override void Start()
+    {
+        base.Start();
+        buildBar.Init(info);
+    }
+
+    protected void Unbuilt()
+    {
+        spriteRenderer.color = new Color(0,0,0,.3f);
+    }
+   
+    public void Activate(bool isActive)
+    {
+        this.isActive = isActive;
+    }
+
+    public bool Build(float amt)
+    {
+        buildProgress += amt;
+        buildBar.UpdateValue(amt);
+        if (buildProgress >= info.buildTime)
+        {
+            FinishedBuilding();
+            return true;
+        }
+        return false;
+    }
+    private void FinishedBuilding()
+    {
+        isBuilt = true;
+        workerTrigger.gameObject.SetActive(false);
+        buildBar.gameObject.SetActive(false);
+        spriteRenderer.color = Color.white;
+        hpBar.gameObject.SetActive(true);
+        ChangeLayer(isEnemy);
+        GameManager.Instance.RemoveStructureFromQueue(this); //race case with next operation
+
+        foreach (var worker in workers)
+        {
+            worker.EndJob(this);
+        }
+
+    }
+    public virtual void AddWorker(Worker worker)
+    {
+        workers.Add(worker);
+    }
+
+    public virtual bool HasWorkerLimit()
+    {
+        if(info.workersRequired >= workers.Count)
+        {
+            return true;
+        }
+        return false;
+    }
+}
