@@ -32,8 +32,8 @@ public abstract class AbilityScriptableObject : ScriptableObject
     {
         onActionStarted.Invoke();
         //controller.CompletedAction(this);
-       // CanvasManager.Instance.DimCanvas(false);
-
+        // CanvasManager.Instance.DimCanvas(false);
+        PlayerManager.Instance.Mana -= manaCost;
         OnFinished();
         onActionStarted.RemoveAllListeners();
      

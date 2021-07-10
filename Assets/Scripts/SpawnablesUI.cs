@@ -11,7 +11,7 @@ public class SpawnablesUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach(var unit in GameManager.Instance.availableUnits)
+        foreach(var unit in PlayerManager.Instance.availableUnits)
         {
             AddToGroup(unit);
         }

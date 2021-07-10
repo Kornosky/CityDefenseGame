@@ -18,7 +18,7 @@ public class JumpAbility : AbilityScriptableObject
     protected override void Effect()
     {
         Collider2D hit = Physics2D.OverlapPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-        if (hit && !hit.isTrigger)
+        if (hit && !hit.isTrigger && hit.attachedRigidbody != null)
         {
             hit.attachedRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
             OnStarted();

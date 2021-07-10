@@ -3,21 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Singleton<EnemyManager>
 {
     public GameObject Sword;
     public GameObject Archer;
     public Transform location;
     public bool shouldSpawn;
     [SerializeField] private Dictionary<UnitScriptableObject, int> unitSpawnedSinceLastTick = new Dictionary<UnitScriptableObject, int>();
-
+    private float chanceModifier;
+    private Unit nexus;
     private void Start()
     {
         if (!shouldSpawn)
             return;
+        chanceModifier = 1;
+        nexus = PlayerManager.Instance.enemyBase.GetComponent<Unit>();
         InvokeRepeating("EnemyTick", 0, 1f);
     }
+    public void Init(LevelScriptableObject info)
+    {
 
+    }
     private void EnemyTick()
     {
         UnitScriptableObject unitToSpawn;
@@ -62,6 +68,14 @@ public class EnemyManager : MonoBehaviour
             SpawnSword();
             SpawnArcher();
         }
+
+        var healthBundle = nexus.GetHealth();
+        if (healthBundle.curHealth < healthBundle.maxHealth / 2)
+        {
+            SpawnSword();
+            SpawnArcher();
+        }
+
         //Set for next tick
         unitSpawnedSinceLastTick = new Dictionary<UnitScriptableObject, int>(PlayerRecording.Instance.UnitSpawnCount);
     }

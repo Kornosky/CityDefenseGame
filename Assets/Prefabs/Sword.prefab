@@ -51,12 +51,15 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: 945c5e6e83971dc4995e66ffa20e23bd, type: 2}
   isEnemy: 0
   hpBar: {fileID: 4412219556701537344}
+  stateMachine: {fileID: 2964954465101790372}
+  isActing: 0
   projectile: {fileID: 0}
   projSpawnLoc: {fileID: 0}
   toVel: 0.1
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
 --- !u!50 &597871713382194126
 Rigidbody2D:
   serializedVersion: 4
@@ -309,7 +312,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27bbd7ae634af1747b1131a26516f58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackAction:
+  actionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hitFinishedEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1546018082971032075

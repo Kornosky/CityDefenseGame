@@ -15,6 +15,10 @@ public class Healthbar : UIBar
         targetValue = (int)slider.maxValue;
     }
 
+    public HealthBundle GetHealth()
+    {
+        return new HealthBundle(targetValue, slider.minValue, slider.maxValue);
+    }
     protected override void UpdateEffect(float value)
     {
         HitDamage newDamage = Instantiate(hitDamage, transform.parent.transform).GetComponent<HitDamage>();

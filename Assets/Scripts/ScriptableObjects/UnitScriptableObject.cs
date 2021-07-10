@@ -34,7 +34,8 @@ public class UnitScriptableObject : ScriptableObject
     public float range;
     public float projectileSpeed;
     public float accuracy;
-
+    [Header("Meta")]
+    public bool isAvailable;
     [Header("Upgrades")]
     public float u_buildTime;
     public int u_workersRequired;
@@ -59,4 +60,38 @@ public class UnitScriptableObject : ScriptableObject
     {
 
     }
+
+    public bool isUnlocked;
+    void OnEnable()
+    {
+        isUnlocked = false;
+    }
+
+    //Inits this scriptable object
+    public void Initialize()
+    {
+        GameManager.Instance.SaveData += Save;
+        GameManager.Instance.LoadData += Load;
+    }
+
+    public void Unlock()
+    { 
+        isUnlocked = true;
+    }
+    public void Save()
+    {
+        GameManager.Instance.data.unitScriptableObjects[name] = JsonUtility.ToJson(this);
+    }
+    public void Load()
+    {
+        if (GameManager.Instance.data.unitScriptableObjects.ContainsKey(name))
+            JsonUtility.FromJsonOverwrite(GameManager.Instance.data.unitScriptableObjects[name], this);
+
+        //Make sure everything is set up correct after reading dataf
+        if (isUnlocked)
+        {
+            Unlock();
+        }
+    }
+
 }
