@@ -24,10 +24,10 @@ public class Coin : MonoBehaviour
     void OnCollect()
     {
         rb.isKinematic = true;
-        GameManager.Instance.Money += 1;
+        PlayerManager.Instance.Money += 1;
         Destroy(GetComponent<Collider2D>());
 
-        Vector3 goal = Camera.main.ScreenToWorldPoint(GameManager.Instance.moneyText.transform.position);
+        Vector3 goal = Camera.main.ScreenToWorldPoint(PlayerManager.Instance.moneyText.transform.position);
         //move to top right
         Tween.Position(transform, goal, .5f, 0, Tween.EaseOutStrong, Tween.LoopType.None, null, () => Destroy(gameObject));
     }

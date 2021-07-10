@@ -995,6 +995,7 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: 2f270a80a2613fb40b5854588592a4f4, type: 2}
   isEnemy: 0
   hpBar: {fileID: 0}
+  stateMachine: {fileID: 0}
   isActing: 0
   projectile: {fileID: 0}
   projSpawnLoc: {fileID: 0}
@@ -1002,6 +1003,7 @@ MonoBehaviour:
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
   buildProgress: 0
   buildBar: {fileID: 0}
   workerTrigger: {fileID: 0}
@@ -1119,6 +1121,7 @@ GameObject:
   - component: {fileID: 350433085}
   - component: {fileID: 350433087}
   - component: {fileID: 350433086}
+  - component: {fileID: 350433088}
   m_Layer: 5
   m_Name: Lose
   m_TagString: Untagged
@@ -1184,6 +1187,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 350433084}
   m_CullTransparentMesh: 1
+--- !u!114 &350433088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 350433084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1053061539}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &352571005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1452,7 +1499,7 @@ Transform:
   m_GameObject: {fileID: 413063726}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.0304747, y: 0.3474989, z: 5.1347594}
-  m_LocalScale: {x: 2.3494241, y: 2.3494241, z: 2.3494241}
+  m_LocalScale: {x: 3.182295, y: 3.182295, z: 3.182295}
   m_Children: []
   m_Father: {fileID: 874240478}
   m_RootOrder: 1
@@ -1535,6 +1582,9 @@ GameObject:
   - component: {fileID: 539656627}
   - component: {fileID: 539656626}
   - component: {fileID: 539656629}
+  - component: {fileID: 539656631}
+  - component: {fileID: 539656630}
+  - component: {fileID: 539656632}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1619,6 +1669,281 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515e4f96cc1f1be47bf0f366e49f83ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &539656630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539656625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec3e4ed2a559374298a103953472518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAxes: 0
+  perspectiveZoomMode: 0
+  camZoomMin: 4
+  camZoomMax: 12
+  camOverzoomMargin: 1
+  camOverdragMargin: 5
+  boundaryMin: {x: -12.501271, y: -5.3961496}
+  boundaryMax: {x: 12.031812, y: 6.9045076}
+  camFollowFactor: 15
+  autoScrollDampMode: 0
+  autoScrollDamp: 300
+  autoScrollDampCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 0.9
+      inSlope: -0.5
+      outSlope: -0.5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.01
+      inSlope: -0.85
+      outSlope: -0.85
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundLevelOffset: 0
+  enableRotation: 0
+  enableTilt: 0
+  tiltAngleMin: 45
+  tiltAngleMax: 90
+  enableZoomTilt: 0
+  zoomTiltAngleMin: 45
+  zoomTiltAngleMax: 90
+  OnPickItem:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: OnPickItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPickItem2D:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: OnPickItem2D
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPickItemDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPickItem2DDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  keyboardAndMousePlatforms: 07000000020000000000000001000000100000000d00000011000000
+  controlTweakablesEnabled: 0
+  keyboardControlsModifiers: 34010000330100003201000031010000
+  mouseRotationFactor: 0.01
+  mouseTiltFactor: 0.005
+  mouseZoomFactor: 1
+  keyboardRotationFactor: 1
+  keyboardTiltFactor: 1
+  keyboardZoomFactor: 1
+  keyboardRepeatFactor: 60
+  keyboardRepeatDelay: 0.5
+  expertModeEnabled: 0
+  zoomBackSpringFactor: 20
+  dragBackSpringFactor: 10
+  autoScrollVelocityMax: 60
+  dampFactorTimeMultiplier: 2
+  isPinchModeExclusive: 1
+  customZoomSensitivity: 1
+  terrainCollider: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  is2dOverdragMarginEnabled: 0
+  camOverdragMargin2d: {x: 5, y: 5}
+  rotationDetectionDeltaThreshold: 0.25
+  rotationMinPinchDistance: 0.125
+  rotationLockThreshold: 2.5
+  pinchModeDetectionMoveTreshold: 0.025
+  pinchTiltModeThreshold: 0.0075
+  pinchTiltSpeed: 180
+--- !u!114 &539656631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539656625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68db338cb9e141b86129564ccfbf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expertModeEnabled: 0
+  clickDurationThreshold: 0.7
+  doubleclickDurationThreshold: 0.5
+  tiltMoveDotTreshold: 0.7
+  tiltHorizontalDotThreshold: 0.5
+  dragStartDistanceThresholdRelative: 0.05
+  longTapStartsDrag: 1
+--- !u!114 &539656632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539656625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec3e4ed2a559374298a103953472518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAxes: 0
+  perspectiveZoomMode: 0
+  camZoomMin: 4
+  camZoomMax: 12
+  camOverzoomMargin: 1
+  camOverdragMargin: 2.21
+  boundaryMin: {x: -12.331449, y: -5.3961496}
+  boundaryMax: {x: 12.031812, y: 6.9045076}
+  camFollowFactor: 15
+  autoScrollDampMode: 0
+  autoScrollDamp: 300
+  autoScrollDampCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7
+      value: 0.9
+      inSlope: -0.5
+      outSlope: -0.5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.01
+      inSlope: -0.85
+      outSlope: -0.85
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  groundLevelOffset: 0
+  enableRotation: 0
+  enableTilt: 0
+  tiltAngleMin: 45
+  tiltAngleMax: 90
+  enableZoomTilt: 0
+  zoomTiltAngleMin: 45
+  zoomTiltAngleMax: 90
+  OnPickItem:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: OnPickItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPickItem2D:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: OnPickItem2D
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPickItemDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPickItem2DDoubleClick:
+    m_PersistentCalls:
+      m_Calls: []
+  keyboardAndMousePlatforms: 07000000020000000000000001000000100000000d00000011000000
+  controlTweakablesEnabled: 0
+  keyboardControlsModifiers: 34010000330100003201000031010000
+  mouseRotationFactor: 0.01
+  mouseTiltFactor: 0.005
+  mouseZoomFactor: 1
+  keyboardRotationFactor: 1
+  keyboardTiltFactor: 1
+  keyboardZoomFactor: 1
+  keyboardRepeatFactor: 60
+  keyboardRepeatDelay: 0.5
+  expertModeEnabled: 0
+  zoomBackSpringFactor: 20
+  dragBackSpringFactor: 10
+  autoScrollVelocityMax: 60
+  dampFactorTimeMultiplier: 2
+  isPinchModeExclusive: 1
+  customZoomSensitivity: 1
+  terrainCollider: {fileID: 0}
+  cameraTransform: {fileID: 0}
+  is2dOverdragMarginEnabled: 0
+  camOverdragMargin2d: {x: 5, y: 5}
+  rotationDetectionDeltaThreshold: 0.25
+  rotationMinPinchDistance: 0.125
+  rotationLockThreshold: 2.5
+  pinchModeDetectionMoveTreshold: 0.025
+  pinchTiltModeThreshold: 0.0075
+  pinchTiltSpeed: 180
 --- !u!1 &544288879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1784,6 +2109,7 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: db56e7826f63b0048b6ef6d768f7de4d, type: 2}
   isEnemy: 1
   hpBar: {fileID: 0}
+  stateMachine: {fileID: 0}
   isActing: 0
   projectile: {fileID: 0}
   projSpawnLoc: {fileID: 0}
@@ -1791,6 +2117,7 @@ MonoBehaviour:
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
   buildProgress: 0
   buildBar: {fileID: 0}
   workerTrigger: {fileID: 0}
@@ -2071,7 +2398,7 @@ Transform:
   m_GameObject: {fileID: 687602658}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.1073647, y: -7.342501, z: 5.1347594}
-  m_LocalScale: {x: 2.2875, y: -1.2350589, z: 1}
+  m_LocalScale: {x: 3.061361, y: -1.2350589, z: 1}
   m_Children: []
   m_Father: {fileID: 874240478}
   m_RootOrder: 2
@@ -2832,6 +3159,8 @@ GameObject:
   - component: {fileID: 1053061538}
   - component: {fileID: 1053061540}
   - component: {fileID: 1053061539}
+  - component: {fileID: 1053061541}
+  - component: {fileID: 1053061542}
   m_Layer: 5
   m_Name: Win
   m_TagString: Untagged
@@ -2897,6 +3226,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1053061537}
   m_CullTransparentMesh: 1
+--- !u!114 &1053061541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053061537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 1053061539}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1053061542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053061537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81f7fe919804154ebccc7d8624c3da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1089380901
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3013,7 +3398,7 @@ GameObject:
   - component: {fileID: 1093097339}
   - component: {fileID: 1093097340}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: PlayerManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3945,7 +4330,7 @@ Transform:
   m_GameObject: {fileID: 1663385583}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.1073647, y: -2.7025013, z: 5.1347594}
-  m_LocalScale: {x: 2.2875, y: 0.44674188, z: 1}
+  m_LocalScale: {x: 3.061361, y: 0.44674188, z: 1}
   m_Children: []
   m_Father: {fileID: 874240478}
   m_RootOrder: 0

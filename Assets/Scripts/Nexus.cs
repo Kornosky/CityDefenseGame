@@ -24,6 +24,6 @@ public class Nexus : Structure
     {
         base.Death();
 
-        GameManager.Instance.GameOver(isEnemy);
+        PlayerManager.Instance.GameOver(isEnemy);
     }
 }

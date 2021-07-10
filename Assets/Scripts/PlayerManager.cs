@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+
 [System.Serializable] public class StructureRequested : UnityEvent<Structure> { }
 [System.Serializable] public class StructureCancelled : UnityEvent<Structure> { }
-public class GameManager : SingletonDDOL<GameManager>
+public class PlayerManager : Singleton<PlayerManager>
 {
     private int money;
     private int mana;
@@ -33,18 +34,22 @@ public class GameManager : SingletonDDOL<GameManager>
     [Header("Temp")]
     public GameObject winScreen;
     public GameObject loseScreen;
+    private bool hasLoaded;
 
+    public int Money { get => money; set { money = value; if(moneyText) moneyText.text = money.ToString(); PlayerRecording.Instance.MoneyEarnedTotal += 1; } }
+    //temp solution
+    public int Mana { get => mana; set { mana = value; if (manaText) manaText.text = mana.ToString(); } }
 
-    public int Money { get => money; set { money = value; moneyText.text = money.ToString(); PlayerRecording.Instance.MoneyEarnedTotal += 1; } }
+    private void Start()
+    {
 
-    public int Mana { get => mana; set { mana = value; manaText.text = mana.ToString(); } }
-
-private void Start()
+    }
+    public void Init(LevelScriptableObject info)
     {
         InvokeRepeating("MoneyTick", 0, 3);
         InvokeRepeating("ManaTick", 0, 2);
-        mainCam = Camera.main;
     }
+
     public void AddStructureToQueue(Structure structure)
     {
         structureBuildQueue.Add(structure);
@@ -180,4 +185,5 @@ private void Start()
     {
         Mana += manaPassiveIncrease;
     }
+
 }

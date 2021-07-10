@@ -10,10 +10,10 @@ public class Worker : Unit
     {
         base.Start();
        
-        GameManager.Instance.structureRequestedAction.AddListener(StartJob);
-        GameManager.Instance.structureCancelledAction.AddListener(EndJob);
+        PlayerManager.Instance.structureRequestedAction.AddListener(StartJob);
+        PlayerManager.Instance.structureCancelledAction.AddListener(EndJob);
 
-        var job = GameManager.Instance.CheckForStructures();
+        var job = PlayerManager.Instance.CheckForStructures();
         if (job)
             StartJob(job);
     }
@@ -71,7 +71,7 @@ public class Worker : Unit
         currentBuildJob = null;
         ChangeTarget(homeBase);
         //Check for another job
-        var jobs = GameManager.Instance.CheckForStructures();
+        var jobs = PlayerManager.Instance.CheckForStructures();
         if (jobs)
             StartJob(jobs);
     }
@@ -82,8 +82,8 @@ public class Worker : Unit
     protected override void OnDestroy()
     {
         base.OnDestroy();
-        GameManager.Instance.structureRequestedAction.RemoveListener(StartJob);
-        GameManager.Instance.structureCancelledAction.RemoveListener(EndJob);
+        PlayerManager.Instance.structureRequestedAction.RemoveListener(StartJob);
+        PlayerManager.Instance.structureCancelledAction.RemoveListener(EndJob);
     }
 
     protected override void Action()

@@ -7,8 +7,8 @@ public class Sword : Unit
     protected override void Start()
     {
         base.Start();
-        if (isEnemy) ChangeTarget(GameManager.Instance.playerBase);
-        else ChangeTarget(GameManager.Instance.enemyBase);
+        if (isEnemy) ChangeTarget(PlayerManager.Instance.playerBase);
+        else ChangeTarget(PlayerManager.Instance.enemyBase);
     }
     protected override void Flipped(bool isFacingRight)
     {

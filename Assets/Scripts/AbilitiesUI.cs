@@ -11,7 +11,7 @@ public class AbilitiesUI : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        foreach (var unit in GameManager.Instance.availableAbilities)
+        foreach (var unit in PlayerManager.Instance.availableAbilities)
         {
             AddToGroup(unit);
         }

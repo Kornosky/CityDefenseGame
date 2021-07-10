@@ -66,7 +66,7 @@ public abstract class Structure : Unit
         spriteRenderer.color = Color.white;
         hpBar.gameObject.SetActive(true);
         ChangeLayer(isEnemy);
-        GameManager.Instance.RemoveStructureFromQueue(this); //race case with next operation
+        PlayerManager.Instance.RemoveStructureFromQueue(this); //race case with next operation
 
         foreach (var worker in workers)
         {

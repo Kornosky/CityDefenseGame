@@ -21,16 +21,16 @@ public class SpawnableButton : CooldownButton<UnitScriptableObject>
         base.OnPressed();
         if(info.isStructure)
         {
-            if (GameManager.Instance.CheckPurchase(info))
+            if (PlayerManager.Instance.CheckPurchase(info))
             {
-                GameManager.Instance.TryPlacingUnit(info, startCooldownAction);
+                PlayerManager.Instance.TryPlacingUnit(info, startCooldownAction);
             }
         }
         else
         {
-           if( GameManager.Instance.CheckPurchase(info))
+           if( PlayerManager.Instance.CheckPurchase(info))
             {
-                GameManager.Instance.BuyUnit(info);
+                PlayerManager.Instance.BuyUnit(info);
                 StartCoroutine(Wait());
             }
         }

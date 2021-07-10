@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: 551fb9f1815fbb64383da112673a02a2, type: 2}
   isEnemy: 0
-  direction: 0
   hpBar: {fileID: 2084817207680409897}
+  stateMachine: {fileID: 644078636681009613}
+  isActing: 0
   projectile: {fileID: 0}
   projSpawnLoc: {fileID: 0}
+  toVel: 0.1
+  maxVel: 1
+  maxForce: 20
+  gain: 5
+  isInvicible: 0
 --- !u!1001 &2438022427495867753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,3 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f875b8f9d9009b348b1c112f459cd863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &644078636681009613 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2964954465101790372, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+  m_PrefabInstance: {fileID: 2438022427495867753}
+  m_PrefabAsset: {fileID: 0}

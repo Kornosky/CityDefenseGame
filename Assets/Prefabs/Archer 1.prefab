@@ -45,12 +45,15 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: e5e7657a50719a44bbcf730a5d50bb8d, type: 2}
   isEnemy: 0
   hpBar: {fileID: 0}
+  stateMachine: {fileID: 9207895071619477934}
+  isActing: 0
   projectile: {fileID: 227296971645971604, guid: ce0c464907a036f4884ad3aa41ddc2f9, type: 3}
   projSpawnLoc: {fileID: 8758568454580506247}
   toVel: 0.1
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
 --- !u!114 &7138659541397446731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +139,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3720648823514680449, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720648823514680449, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3793834980623527906, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -168,6 +179,11 @@ GameObject:
 --- !u!4 &6818643965710767815 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 597871713382194125, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+  m_PrefabInstance: {fileID: 6263558927836466442}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &9207895071619477934 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2964954465101790372, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
   m_PrefabInstance: {fileID: 6263558927836466442}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7082694884715356901 stripped

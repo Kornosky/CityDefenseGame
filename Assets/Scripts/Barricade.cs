@@ -53,7 +53,7 @@ public class Barricade : Structure, IPlaceable
             if(info.buildTime > 0)
             {
                 Unbuilt();
-                GameManager.Instance.AddStructureToQueue(this);
+                PlayerManager.Instance.AddStructureToQueue(this);
             }
         }
     }

@@ -3,13 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public struct HealthBundle
+{
+    public int curHealth;
+    public int minHealth;
+    public int maxHealth;
+
+    public HealthBundle(int curHealth, int minHealth, int maxHealth)
+    {
+        this.curHealth = curHealth;
+        this.minHealth = minHealth;
+        this.maxHealth = maxHealth;
+    }
+    public HealthBundle(float curHealth, float minHealth, float maxHealth)
+    {
+        this.curHealth = (int) curHealth;
+        this.minHealth = (int) minHealth;
+        this.maxHealth = (int) maxHealth;
+    }
+}
+
 public abstract class Unit : MonoBehaviour, IDamageable
 {
     [SerializeField] protected UnitScriptableObject info;
     public bool isEnemy;
     [SerializeField] protected Healthbar hpBar;
     protected SpriteRenderer spriteRenderer;
-    protected Animator stateMachine;
+    [SerializeField] protected Animator stateMachine;
     protected Rigidbody2D rb;
     protected Transform goalTarget;
     protected ActionCollider actionCollider;
@@ -34,6 +54,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
         actionCollider.actionEvent.AddListener(TryAction);
         unitAnimator?.actionEvent.AddListener(Action);
        // unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
+    }
+    public HealthBundle GetHealth()
+    {
+        return hpBar.GetHealth();
     }
     protected virtual void Flipped(bool isFacingLeft)
     {
@@ -64,11 +88,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
             if (rb.velocity.magnitude == Mathf.Epsilon)
             {
-                stateMachine.SetBool("Moving", false);
+                stateMachine?.SetBool("Moving", false);
             }
             else
             {
-                stateMachine.SetBool("Moving", true);
+                stateMachine?.SetBool("Moving", true);
             }
         }
        
@@ -91,16 +115,15 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
-        actionCollider ??= GetComponentInChildren<ActionCollider>();
-
-        stateMachine ??= GetComponentInChildren<Animator>();
-        unitAnimator ??= GetComponentInChildren<UnitAnimator>();
+        actionCollider ??= GetComponentInChildren<ActionCollider>(true);
         rb ??= GetComponent<Rigidbody2D>();
         spriteRenderer ??= GetComponentInChildren<SpriteRenderer>(true);
         hpBar ??= GetComponentInChildren<Healthbar>(true);
+        stateMachine ??= GetComponentInChildren<Animator>(true);
+        unitAnimator ??= GetComponentInChildren<UnitAnimator>(true);
 
         PlayerRecording.Instance.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, 1);
-        GameManager.Instance.activeUnits.Add(this);
+        PlayerManager.Instance.activeUnits.Add(this);
     }
     protected void ChangeTarget(Transform location)
     {
@@ -108,7 +131,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     public void DropCoin()
     {
-        int earned = (int)(info.cost * GameManager.Instance.percentageEarnedFromKill);
+        int earned = (int)(info.cost * PlayerManager.Instance.percentageEarnedFromKill);
         //  GameManager.Instance.Money += earned;
         for (int i = 0; i < earned; i++)
             Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
@@ -135,13 +158,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
         if (isEnemy)
         {
             isFacingRight = !isEnemy; //hmmm
-            homeBase = GameManager.Instance.enemyBase;
+            homeBase = PlayerManager.Instance.enemyBase;
         }
         else
         {
 
             isFacingRight = isEnemy; //hmmm
-            homeBase = GameManager.Instance.playerBase;
+            homeBase = PlayerManager.Instance.playerBase;
         }
         Flipped(isFacingRight);
         ChangeLayer(isEnemy);
@@ -206,7 +229,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
         if (isEnemy)
         {
-            int earned = (int)(info.cost * GameManager.Instance.percentageEarnedFromKill);
+            int earned = (int)(info.cost * PlayerManager.Instance.percentageEarnedFromKill);
           //  GameManager.Instance.Money += earned;
             for(int i = 0; i < earned; i++)
                 Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
@@ -266,7 +289,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     }
     protected virtual void OnDestroy()
     {
-        GameManager.Instance?.activeUnits?.Remove(this);
+        PlayerManager.Instance?.activeUnits?.Remove(this);
         PlayerRecording.Instance?.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, -1);
     }
     //Each unit has a unique action
@@ -277,6 +300,20 @@ public abstract class Unit : MonoBehaviour, IDamageable
         //Stuff before waiting
         yield return new WaitForSeconds(info.actionCD);
         isActing = false;
+    }
+
+    public AnimationClip GetAnimationClip(string clipName, Animator anim)
+    {
+        //Because it isn't always set in prefab
+        stateMachine ??= GetComponentInChildren<Animator>();
+        
+        foreach (var clip in anim.runtimeAnimatorController.animationClips)
+        {
+            if (clip.name == clipName)
+                return clip;
+        }
+        Debug.LogError(clipName + " was not found for " + gameObject);
+        return null;
     }
 
 }
