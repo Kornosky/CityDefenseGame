@@ -35,8 +35,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected ActionCollider actionCollider;
     [SerializeField] protected bool isActing = false;
     [Header("Needs Refactoring")]
-    public GameObject projectile;
-    public Transform projSpawnLoc;
     protected bool isGrounded = false;
     protected bool isDead = false;
     private bool arrivedAtDestination = false;
@@ -49,12 +47,24 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public float gain = 5f;
     public bool isInvicible;
 
+
+    GameObject coinPrefab;
+    GameObject manaPrefab;
+    GameObject vfxPrefab;
+
+    //TODO get closest point somewhere on the actual unit... if possible
+    public Vector3 GetClosestPoint(Vector3 location)
+    {
+        return spriteRenderer.bounds.ClosestPoint(location);
+    }
+
     protected virtual void Start()
     {
         actionCollider.actionEvent.AddListener(TryAction);
         unitAnimator?.actionEvent.AddListener(Action);
        // unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
     }
+
     public HealthBundle GetHealth()
     {
         return hpBar.GetHealth();
@@ -69,33 +79,37 @@ public abstract class Unit : MonoBehaviour, IDamageable
             return;
         if (isGrounded && goalTarget != null)
         {
-            Vector2 dist = goalTarget.position - transform.position;
-            bool isFlipped = dist.x < 0 ;
-            if (isFacingRight != isFlipped && rb.velocity.magnitude != Mathf.Epsilon)
-            {
-                isFacingRight = isFlipped;
-                Flipped(isFacingRight);
-            }            
+            Move();
+        }       
+    }
 
-            dist.y = 0; // ignore height differences
-                        // calc a target vel proportional to distance (clamped to maxVel)
-            Vector2 tgtVel = Vector2.ClampMagnitude(20 * dist, info.moveSpeed);
-            // Vector2 the velocity error
-            Vector2 error = tgtVel - rb.velocity;
-            // calc a force proportional to the error (clamped to maxForce)
-            Vector2 force = Vector2.ClampMagnitude(gain * error, maxForce);
-            rb.AddForce(force);
-
-            if (rb.velocity.magnitude == Mathf.Epsilon)
-            {
-                stateMachine?.SetBool("Moving", false);
-            }
-            else
-            {
-                stateMachine?.SetBool("Moving", true);
-            }
+    protected virtual void Move()
+    {
+        Vector2 dist = goalTarget.position - transform.position;
+        bool isFlipped = dist.x < 0;
+        if (isFacingRight != isFlipped && rb.velocity.magnitude != Mathf.Epsilon)
+        {
+            isFacingRight = isFlipped;
+            Flipped(isFacingRight);
         }
-       
+
+        dist.y = 0; // ignore height differences
+                    // calc a target vel proportional to distance (clamped to maxVel)
+        Vector2 tgtVel = Vector2.ClampMagnitude(20 * dist, info.MoveSpeed);
+        // Vector2 the velocity error
+        Vector2 error = tgtVel - rb.velocity;
+        // calc a force proportional to the error (clamped to maxForce)
+        Vector2 force = Vector2.ClampMagnitude(gain * error, maxForce);
+        rb.AddForce(force);
+
+        if (rb.velocity.magnitude == Mathf.Epsilon)
+        {
+            stateMachine?.SetBool("Moving", false);
+        }
+        else
+        {
+            stateMachine?.SetBool("Moving", true);
+        }
     }
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {      
@@ -122,6 +136,10 @@ public abstract class Unit : MonoBehaviour, IDamageable
         stateMachine ??= GetComponentInChildren<Animator>(true);
         unitAnimator ??= GetComponentInChildren<UnitAnimator>(true);
 
+        //Resources
+        coinPrefab = Resources.Load("Coin") as GameObject;
+        manaPrefab = Resources.Load("Mana") as GameObject;
+        vfxPrefab = Resources.Load("VFX") as GameObject;
         PlayerRecording.Instance.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, 1);
         PlayerManager.Instance.activeUnits.Add(this);
     }
@@ -129,18 +147,26 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         goalTarget = location;
     }
-    public void DropCoin()
+    public void DropPickup()
     {
-        int earned = (int)(info.cost * PlayerManager.Instance.percentageEarnedFromKill);
-        //  GameManager.Instance.Money += earned;
-        for (int i = 0; i < earned; i++)
-            Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
+        if(Random.Range(0f, 1f) > .5f)
+        {
+            int earned = (int)(info.Cost * PlayerManager.Instance.percentageEarnedFromKill);
+            //  GameManager.Instance.Money += earned;
+            for (int i = 0; i < earned; i++)
+                Instantiate(coinPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(manaPrefab, transform.position, Quaternion.identity);
+        }
     }
     public void DestroyInteraction()
-    { 
-        Destroy(rb);
-        Destroy(GetComponent<Collider2D>());
-        Destroy(actionCollider.gameObject);
+    {
+        //Destroy(rb);
+        //Destroy(GetComponent<Collider2D>());
+        ChangeLayer(true, "NoUnitCollision");
+        //Destroy(actionCollider.gameObject);
     }
     public void Invincibility(bool isInvincible)
     {
@@ -229,7 +255,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
         if (isEnemy)
         {
-            int earned = (int)(info.cost * PlayerManager.Instance.percentageEarnedFromKill);
+            int earned = (int)(info.Cost * PlayerManager.Instance.percentageEarnedFromKill);
           //  GameManager.Instance.Money += earned;
             for(int i = 0; i < earned; i++)
                 Instantiate(Resources.Load("Coin") as GameObject, transform.position, Quaternion.identity);
@@ -244,6 +270,16 @@ public abstract class Unit : MonoBehaviour, IDamageable
         else
             Destroy(gameObject);
     }
+
+    public virtual void GetHit(int damage, Vector3 sourcePos, Vector2 knockback, Vector3 location, AnimationClip vfx)
+    {
+        if (isInvicible)
+            return;
+
+        rb.AddForce(new Vector2((gameObject.transform.position - sourcePos).normalized.x * knockback.x, knockback.y), ForceMode2D.Impulse);
+        TakeDamage(damage, location, vfx);
+    }
+    
     public virtual void GetHit(int damage, Vector3 sourcePos, Vector2 knockback)
     {
         if (isInvicible)
@@ -252,10 +288,27 @@ public abstract class Unit : MonoBehaviour, IDamageable
         rb.AddForce(new Vector2((gameObject.transform.position - sourcePos).normalized.x * knockback.x, knockback.y), ForceMode2D.Impulse);
         TakeDamage(damage);
     }
+
+    //Wrapper VFX damage
+    public virtual bool TakeDamage(int dmg, Vector3 location, AnimationClip vfx)
+    {
+        if (TakeDamage(dmg)) return true; //died
+
+        //vfx
+        var temp = Instantiate(vfxPrefab, location, Quaternion.identity).GetComponent<VFX>();
+        temp.Init(vfx);
+
+        return false;
+    }
+    public virtual bool TakeDamage(int dmg, DamageType type)
+    {
+        return TakeDamage(dmg);
+    }
     public virtual bool TakeDamage(int dmg)
     {
         if (isInvicible)
             return false;
+
 
         hpBar.UpdateValue(-dmg);
         if (hpBar.GetValue() <= 0)
@@ -273,9 +326,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
         if(dmg >= info.actionDmgInterruptThreshold || Random.Range(0, info.actionDmgInterruptThreshold) < dmg && dmg > 0)
         {
             //reset so they can attack
-            isActing = false;
-
-            stateMachine?.SetTrigger("Hit");
+            isActing = true;
+            if(stateMachine)
+                stateMachine?.SetTrigger("Hit");
         }//less likely based off damage difference
      
         return false;

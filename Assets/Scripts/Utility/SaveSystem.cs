@@ -62,8 +62,8 @@ public class SaveSystem : MonoBehaviour
     public static string json = "";
 
     protected static string encryptKey = "G2swfdUWNS5EBhbNDqxvyG4D";
-    protected static string savePath = "/projectidle.save";
-    protected static string savePathBackUP = "/projectidlebackup.save";
+    protected static string savePath = "/projectcitydefense.save";
+    protected static string savePathBackUP = "/projectcitydefensebackup.save";
 
     public static int backUpCount = 0;
 
@@ -103,7 +103,7 @@ public class SaveSystem : MonoBehaviour
         }
         catch (Exception ex)
         {
-            Debug.Log("Load Save Failed");
+            Debug.Log("Load Save Failed: " + ex);
             CreateFile();
             // LoadPlayer(ref data);
             // Load failed, handle codes here
@@ -139,7 +139,7 @@ public class SaveSystem : MonoBehaviour
         return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
     }
 
-    public void ImportPlayer2(ref PlayerData playerData)
+    public void ImportPlayer2(GameManager playerData)
     {
         using (StreamWriter writer = new StreamWriter(Application.persistentDataPath + savePath))
         {
@@ -149,7 +149,7 @@ public class SaveSystem : MonoBehaviour
             using (StreamReader reader = new StreamReader(Application.persistentDataPath + savePath))
             {
                 json = ConvertBase64ToString(reader);
-                playerData = JsonUtility.FromJson<PlayerData>(json);
+                playerData.data = JsonUtility.FromJson<PlayerData>(json);
                 reader.Close();
             }
         }

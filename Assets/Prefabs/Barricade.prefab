@@ -14,16 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   info: {fileID: 11400000, guid: baf721ab1c16f96409a8788af9301fd5, type: 2}
   isEnemy: 0
-  direction: 0
   hpBar: {fileID: 4397798011570421851}
-  projectile: {fileID: 0}
-  projSpawnLoc: {fileID: 0}
+  stateMachine: {fileID: 0}
+  isActing: 0
   toVel: 0.1
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
   buildProgress: 0
   buildBar: {fileID: 275992106043780608}
+  workerTrigger: {fileID: 0}
+--- !u!114 &263722945308971727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 612303273316016082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e9257422a2d0404ba2d3447cd4fcfbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  touchInputController: {fileID: 0}
 --- !u!1001 &173554195438183404
 PrefabInstance:
   m_ObjectHideFlags: 0

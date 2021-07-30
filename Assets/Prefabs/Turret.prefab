@@ -100,6 +100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46643978b9bdf3047a5dc918068831db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onTriggerEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
+  info: {fileID: 0}
+  buildBar: {fileID: 3360347383862262762}
 --- !u!1 &597871713382194121
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,15 +199,14 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: e524800a128405848a0e9753bdcd50dc, type: 2}
   isEnemy: 0
   hpBar: {fileID: 4412219556701537344}
+  stateMachine: {fileID: 0}
   isActing: 0
-  projectile: {fileID: 227296971645971604, guid: ce0c464907a036f4884ad3aa41ddc2f9, type: 3}
-  projSpawnLoc: {fileID: 7899781081828887712}
   toVel: 0.1
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
   buildProgress: 0
-  buildBar: {fileID: 3360347383862262762}
   workerTrigger: {fileID: 0}
 --- !u!114 &1871312937194960944
 MonoBehaviour:

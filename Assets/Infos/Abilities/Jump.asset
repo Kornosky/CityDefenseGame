@@ -15,15 +15,8 @@ MonoBehaviour:
   abilityName: Jump
   cooldownPeriod: 3
   description: "JUMP\t"
-  isAggresive: 0
-  isDefensive: 0
-  isMovement: 0
-  targetCount: 0
-  hasRange: 0
-  maxRange: 0
   manaCost: 6
   icon: {fileID: 0}
-  selectorMaterial: {fileID: 0}
   vfxPrefab: {fileID: 0}
   sfx: []
   onActionCompleted:
@@ -35,6 +28,6 @@ MonoBehaviour:
   onActionStarted:
     m_PersistentCalls:
       m_Calls: []
-  jumpForce: 4
+  jumpForce: 2
   shakeAmount: 1.1
   shakeLength: 0.4

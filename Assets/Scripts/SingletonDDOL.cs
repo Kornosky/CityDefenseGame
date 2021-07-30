@@ -11,7 +11,7 @@ public abstract class SingletonDDOL<T> : MonoBehaviour where T : MonoBehaviour
     private static T m_Instance;
 
     /// <summary>
-    /// Access singleton instance through this propriety.
+    /// Access singleton instance through this property.
     /// </summary>
     public static T Instance
     {
@@ -30,7 +30,7 @@ public abstract class SingletonDDOL<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     // Search for existing instance.
                     m_Instance = (T)FindObjectOfType(typeof(T));
-
+            
                     // Create new instance if one doesn't already exist.
                     if (m_Instance == null)
                     {
@@ -39,10 +39,14 @@ public abstract class SingletonDDOL<T> : MonoBehaviour where T : MonoBehaviour
                         m_Instance = singletonObject.AddComponent<T>();
                         singletonObject.name = typeof(T).ToString() + " (Singleton)";
 
-                        // Make instance persistent.
-                        DontDestroyOnLoad(singletonObject);
                     }
+
+                   
                 }
+
+                //Make persistant if not already
+                if (m_Instance.gameObject.scene.buildIndex != -1)
+                    DontDestroyOnLoad(m_Instance);
 
                 return m_Instance;
             }
@@ -56,8 +60,12 @@ public abstract class SingletonDDOL<T> : MonoBehaviour where T : MonoBehaviour
     }
 
 
-    private void OnDestroy()
+    public virtual void RefreshReferences()
     {
-        m_ShuttingDown = true;
+
+    }
+    protected virtual void OnDestroy()
+    {
+        //m_ShuttingDown = true;
     }
 }

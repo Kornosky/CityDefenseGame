@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using Pixelplacement.TweenSystem;
 /// <summary>
 /// Needs to be built by worker
-/// </summary>
+/// </summary
 public abstract class Structure : Unit
 {
     [Header("Structure Class")]
@@ -14,7 +14,6 @@ public abstract class Structure : Unit
     public float buildProgress;
     protected bool isActive;
 
-    [SerializeField] BuildBar buildBar;
     [SerializeField] WorkerTrigger workerTrigger;
 
     public override void Init(bool isEnemy, UnitScriptableObject info = null)
@@ -27,14 +26,26 @@ public abstract class Structure : Unit
     protected override void Awake()
     {
         base.Awake();
-        buildBar ??= GetComponentInChildren<BuildBar>();
         workerTrigger ??= GetComponentInChildren<WorkerTrigger>();
         buildProgress = 0;
     }   
     protected override void Start()
     {
         base.Start();
-        buildBar.Init(info);
+        if(workerTrigger != null)
+        {
+            workerTrigger.Init(info, FinishedBuilding);
+            workerTrigger.onTriggerEnter.AddListener(WorkerBuilding);
+            workerTrigger.onTriggerExit.AddListener(WorkerStopped);
+        }
+    }
+    void WorkerBuilding(Worker worker)
+    {
+
+    }
+    void WorkerStopped(Worker worker)
+    {
+
     }
 
     protected void Unbuilt()
@@ -47,22 +58,10 @@ public abstract class Structure : Unit
         this.isActive = isActive;
     }
 
-    public bool Build(float amt)
-    {
-        buildProgress += amt;
-        buildBar.UpdateValue(amt);
-        if (buildProgress >= info.buildTime)
-        {
-            FinishedBuilding();
-            return true;
-        }
-        return false;
-    }
     private void FinishedBuilding()
     {
         isBuilt = true;
         workerTrigger.gameObject.SetActive(false);
-        buildBar.gameObject.SetActive(false);
         spriteRenderer.color = Color.white;
         hpBar.gameObject.SetActive(true);
         ChangeLayer(isEnemy);

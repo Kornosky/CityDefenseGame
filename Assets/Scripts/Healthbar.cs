@@ -9,7 +9,7 @@ public class Healthbar : UIBar
     [SerializeField] GameObject hitDamage;
     public override void Init(UnitScriptableObject info)
     {
-        slider.maxValue = info.health;
+        slider.maxValue = info.Health;
         slider.value = slider.maxValue;
         previousValue = (int)slider.maxValue;
         targetValue = (int)slider.maxValue;

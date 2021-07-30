@@ -14,10 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelNumber: 1
   name: 
-  difficulty: 0
-  units: []
+  difficulty: 3
+  units:
+  - {fileID: 11400000, guid: 665ddc57121e0d64698655446917e87f, type: 2}
+  - {fileID: 11400000, guid: e5e7657a50719a44bbcf730a5d50bb8d, type: 2}
+  - {fileID: 11400000, guid: 5e5a0c6d7daedb24695660d64271a5c7, type: 2}
+  - {fileID: 11400000, guid: 945c5e6e83971dc4995e66ffa20e23bd, type: 2}
+  - {fileID: 11400000, guid: 551fb9f1815fbb64383da112673a02a2, type: 2}
   nexus: {fileID: 0}
   background: {fileID: 0}
   foreground: {fileID: 0}
-  placeholder: 
+  dialogueInfo: {fileID: 11400000, guid: 252b095d3f6edc04284744d7139c13aa, type: 2}
   isBeat: 0

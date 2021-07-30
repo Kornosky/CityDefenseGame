@@ -12,7 +12,7 @@ public class UnitDeathState : StateMachineBehaviour
 
         if (unit.isEnemy)
         {
-            unit.DropCoin();
+            unit.DropPickup();
         }
     }
 

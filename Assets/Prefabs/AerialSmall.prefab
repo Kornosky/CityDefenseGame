@@ -51,13 +51,13 @@ MonoBehaviour:
   info: {fileID: 11400000, guid: 945c5e6e83971dc4995e66ffa20e23bd, type: 2}
   isEnemy: 0
   hpBar: {fileID: 4412219556701537344}
+  stateMachine: {fileID: 0}
   isActing: 0
-  projectile: {fileID: 0}
-  projSpawnLoc: {fileID: 0}
   toVel: 0.1
   maxVel: 1
   maxForce: 20
   gain: 5
+  isInvicible: 0
 --- !u!50 &597871713382194126
 Rigidbody2D:
   serializedVersion: 4
@@ -268,7 +268,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 45966500872709769, guid: 5edeed2a9d763284d92a302348938446, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7c984125a87658d42947e3b57c681c20, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -311,6 +311,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  hitFinishedEvent:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1546018082971032075

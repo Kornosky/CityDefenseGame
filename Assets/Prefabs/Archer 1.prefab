@@ -47,8 +47,6 @@ MonoBehaviour:
   hpBar: {fileID: 0}
   stateMachine: {fileID: 9207895071619477934}
   isActing: 0
-  projectile: {fileID: 227296971645971604, guid: ce0c464907a036f4884ad3aa41ddc2f9, type: 3}
-  projSpawnLoc: {fileID: 8758568454580506247}
   toVel: 0.1
   maxVel: 1
   maxForce: 20
@@ -66,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 294e57685702f754590218091256c8a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 227296971645971604, guid: ce0c464907a036f4884ad3aa41ddc2f9, type: 3}
+  projectilePrefab: {fileID: 227296971645971604, guid: 60835c14ab0117945979b6b6d155dab7, type: 3}
   projSpawnLoc: {fileID: 8758568454580506247}
 --- !u!58 &4881173985512964438
 CircleCollider2D:

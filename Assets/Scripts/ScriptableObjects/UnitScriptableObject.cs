@@ -1,6 +1,8 @@
 using NaughtyAttributes;
+using RotaryHeart.Lib.SerializableDictionary;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 [CreateAssetMenu(fileName = "UnitInfo", menuName = "ScriptableObjects/Unit", order = 1)]
 
@@ -15,15 +17,16 @@ public class UnitScriptableObject : ScriptableObject
     public float buildTime;
     public int workersRequired;
     [Header("General")]
-    public float cooldownPeriod;
-    public int cost;
-    public int health;
-    public int damage;
-    public Vector2 knockback;
-    public Vector2 recoil;
-    public float moveSpeed;
-    public bool canMoveWhileActing;
-    public bool hasDeathAnimation;
+    [SerializeField] private float cooldownPeriod;
+    [SerializeField] private int cost;
+    [SerializeField] private int health;
+    [SerializeField] private int damage;
+    [SerializeField] private Vector2 knockback;
+    [SerializeField] public Vector2 recoil;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] public bool canMoveWhileActing;
+    [SerializeField] public bool hasDeathAnimation;
+    [SerializeField] public float actionDuration;
     //Dmg needed to interrupt action
     public int actionDmgInterruptThreshold;
     public bool hitsAllInRange;
@@ -37,34 +40,128 @@ public class UnitScriptableObject : ScriptableObject
     [Header("Meta")]
     public bool isAvailable;
     [Header("Upgrades")]
-    public float u_buildTime;
-    public int u_workersRequired;
-    public float u_cooldownPeriod;
-    public int u_cost;
-    public int u_health;
-    public int u_damage;
-    public Vector2 u_knockback;
-    public Vector2 u_recoil;
-    public float u_moveSpeed;
-    public int u_actionDmgInterruptThreshold;
-    public float u_actionCD;
-    public bool u_hasSpecial;
-    public int u_specialCost;
-    public bool u_isRanged;
-    public float u_range;
-    public float u_projectileSpeed;
-    public float u_accuracy;
-
-    [Button("Reset Upgrades")]
-    void ResetUpgrades()
+    [SerializeField]
+    public UpgradeDict upgrades;
+    [System.Serializable]
+    public enum UpgradeType
     {
-
+        BUILD_TIME,
+        SPAWN_COOLDOWN,
+        COST,
+        HEALTH,
+        KNOCKBACK,
+        DAMAGE,
+        RECOIL,
+        MOVESPEED,
+        INTERRUPT_THRESHOLD,
+        ACTION_COOLDOWN,
+        SPECIAL_ABILITY,
+        PROJECTILE_UPGRADE,
+        ISRANGED,
+        RANGE,
+        PROJECTILE_SPEED,
+        ACCURACY,
+        ACTION_DURATION
+    }
+    [System.Serializable] public class UpgradeDict : SerializableDictionaryBase<UpgradeType, UpgradeStruct> { }
+    [System.Serializable] public class UpgradeStruct
+    {
+        public string overrideName;
+        public float f;
+        public int i;
+        public bool b;
+        public Vector2 vec2;
+        public GameObject projectilePrefab;
+        //Cost per level, optionally a scaling value
+        public int[] cost;
+        //Upgrade level
+        public int rank;
+        public int rankMax;
+    }
+    [Button("Reset Upgrades")]
+    public void ResetData()
+    {
+        foreach (var up in upgrades)
+            up.Value.rank = 0;
     }
 
     public bool isUnlocked;
+
+    public int Health
+    { 
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.HEALTH);
+            int change = uStruct != null ? uStruct.i * uStruct.rank + 1 : 0; 
+            return health + change; 
+        } 
+        set => health = value; 
+    }
+    public int Damage
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.DAMAGE);
+            int change = uStruct != null ? uStruct.i * uStruct.rank + 1: 0;
+            return damage + change;
+        }
+        set => damage = value;
+    }
+    public Vector2 Knockback
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.KNOCKBACK);
+            Vector2 change = uStruct != null ? uStruct.vec2 : Vector2.zero;
+            return knockback + change;
+        }
+        set => knockback = value;
+    }
+    public int Cost
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.COST);
+            int change = uStruct != null ? uStruct.i * uStruct.rank + 1 : 0;
+            return cost + change;
+        }
+        set => cost = value;
+    }
+    public float CooldownPeriod
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.SPAWN_COOLDOWN);
+            float change = uStruct != null ? uStruct.f * uStruct.rank + 1 : 0;
+            return cooldownPeriod + change;
+        }
+        set => cooldownPeriod = value;
+    }
+    public float MoveSpeed
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.MOVESPEED);
+            float change = uStruct != null ? uStruct.f * uStruct.rank + 1 : 0;
+            return moveSpeed + change;
+        }
+        set => moveSpeed = value;
+    }
+    public float ActionDuration
+    {
+        get
+        {
+            UpgradeStruct uStruct = GetUpgrade(UpgradeType.ACTION_DURATION);
+            float change = uStruct != null ? uStruct.f * uStruct.rank + 1 : 0;
+            return actionDuration + change;
+        }
+        set => actionDuration = value;
+    }
+
     void OnEnable()
     {
         isUnlocked = false;
+
     }
 
     //Inits this scriptable object
@@ -74,18 +171,40 @@ public class UnitScriptableObject : ScriptableObject
         GameManager.Instance.LoadData += Load;
     }
 
+    public UpgradeStruct GetUpgrade(UpgradeType type)
+    {
+        UpgradeStruct uStruct;
+        upgrades.TryGetValue(type, out uStruct);
+        return uStruct;
+    }
+    /// <summary>
+    /// Depricated
+    /// </summary>
+    /// <returns></returns>
+    [ContextMenu("Upgrade Properties")]
+    public List<FieldInfo> GetUpgradeableProperties()
+    {
+        FieldInfo[] properties = typeof(UnitScriptableObject).GetFields();
+        List<FieldInfo> propList = new List<FieldInfo>();
+        foreach (FieldInfo property in properties)
+        {
+            if (property.Name.StartsWith("u_"))
+                propList.Add(property);
+        }
+        return propList;
+    }
     public void Unlock()
-    { 
+    {
         isUnlocked = true;
     }
     public void Save()
     {
-        GameManager.Instance.data.unitScriptableObjects[name] = JsonUtility.ToJson(this);
+        GameManager.Instance.Data.unitScriptableObjects[name] = JsonUtility.ToJson(this);
     }
     public void Load()
     {
-        if (GameManager.Instance.data.unitScriptableObjects.ContainsKey(name))
-            JsonUtility.FromJsonOverwrite(GameManager.Instance.data.unitScriptableObjects[name], this);
+        if (GameManager.Instance.Data.unitScriptableObjects.ContainsKey(name))
+            JsonUtility.FromJsonOverwrite(GameManager.Instance.Data.unitScriptableObjects[name], this);
 
         //Make sure everything is set up correct after reading dataf
         if (isUnlocked)

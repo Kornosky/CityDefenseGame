@@ -3,25 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour
+public class Arrow : Projectile
 {
-    public UnitScriptableObject ownerInfo;
-    bool isInitialized;
-    float timer;
-    float decayTime = .5f;
-    public void Init(UnitScriptableObject info, bool isEnemy)
+    bool isRemoving;
+    private void Awake()
     {
-        ownerInfo = info;
-        if (isEnemy)
-        {
-            gameObject.layer = LayerMask.NameToLayer("Enemy");
-        }
-        else
-        {
-           gameObject.layer = LayerMask.NameToLayer("Player");
-        }
+        rb = GetComponent<Rigidbody2D>();
+        damageAnimation = Resources.Load<AnimationClip>("Explode_Basic");
+    }
 
-        isInitialized = true;
+    private void LateUpdate()
+    {
+        Vector2 v = rb.velocity;
+        float angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -40,8 +35,12 @@ public class Arrow : MonoBehaviour
 
     void RemoveArrow()
     {
+        if (isRemoving)
+            return;
+        isRemoving = true;
         Destroy(GetComponent<Collider2D>());
-        Tween.Color(GetComponent<SpriteRenderer>(), Color.clear, .5f, 0, Tween.EaseLinear, Tween.LoopType.None, null, () => Destroy(gameObject));
+        StartCoroutine(WaitToDie());
+        //Tween.Color(GetComponent<SpriteRenderer>(), Color.clear, .5f, 0, Tween.EaseLinear, Tween.LoopType.None, null, () => Destroy(gameObject));
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -55,8 +54,13 @@ public class Arrow : MonoBehaviour
     private void Attack(Collision2D target)
     {
         Unit unit = target.gameObject.GetComponent<Unit>();
-        unit?.GetHit(ownerInfo.damage, transform.position, ownerInfo.knockback);
+        unit?.GetHit(ownerInfo.Damage, transform.position, ownerInfo.Knockback, transform.position, damageAnimation);
+        OnHit(target);
+        RemoveArrow();
+    }
 
-        Destroy(gameObject);
+    public override void OnHit(Collision2D target)
+    {
+        ///throw new System.NotImplementedException();
     }
 }

@@ -10,9 +10,9 @@ public class SpawnableButton : CooldownButton<UnitScriptableObject>
     {
         base.Init(info);
         nameText.text = info.name;
-        costText.text = info.cost + " C";
+        costText.text = info.Cost + " C";
         image.sprite = info.sprite;
-        cooldownPeriod = info.cooldownPeriod;
+        cooldownPeriod = info.CooldownPeriod;
         startCooldownAction += () => StartCoroutine(Wait());
     }
 

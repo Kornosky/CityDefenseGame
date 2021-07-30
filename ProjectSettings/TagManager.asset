@@ -9,7 +9,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
   - Player
@@ -19,10 +19,10 @@ TagManager:
   - Worker
   - PlacingCollider
   - NoUnitCollision
-  - 
-  - 
-  - 
-  - 
+  - Pickup
+  - OnlyUnitCollision
+  - OnlyPlayerCollision
+  - OnlyEnemyCollision
   - 
   - 
   - 
@@ -41,4 +41,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: VFX
+    uniqueID: 3700843331
+    locked: 0
+  - name: Pickup
+    uniqueID: 1989364803
     locked: 0

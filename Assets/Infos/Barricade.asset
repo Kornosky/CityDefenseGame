@@ -17,20 +17,52 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 5cb32238f09ef884bbdf3d0c4007d748, type: 3}
   prefab: {fileID: 612303273316016082, guid: d45295b15bbfe2e4c8d8765e09a9748a, type: 3}
   isStructure: 1
-  buildTime: 5.45
+  buildTime: 5.81
   workersRequired: 1
   cooldownPeriod: 1
-  cost: 1
-  health: 5
+  cost: 6
+  health: 10
   damage: 1
   knockback: {x: 0.72, y: 0.84}
   recoil: {x: 0.15, y: 0.22}
   moveSpeed: 1.77
-  attackCD: 0
-  value: 0
+  canMoveWhileActing: 0
+  hasDeathAnimation: 0
+  actionDuration: 0
+  actionDmgInterruptThreshold: 0
+  hitsAllInRange: 0
+  actionCD: 0
   hasSpecial: 0
   specialCost: 0
   isRanged: 1
   range: 7.03
   projectileSpeed: 1.39
   accuracy: 40
+  isAvailable: 0
+  upgrades:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 0
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 0
+    _keyValues: 
+    _keys: 
+    _values: []
+  isUnlocked: 0

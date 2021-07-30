@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Archer
   m_EditorClassIdentifier: 
   name: Archer
-  description: 
+  description: He shoots a lot. Pew pew.
   sprite: {fileID: 21300000, guid: 5cb32238f09ef884bbdf3d0c4007d748, type: 3}
   prefab: {fileID: 6818643965710767811, guid: 2dc02b8b9fd82934f863b75f7965d6a5, type: 3}
   isStructure: 0
   buildTime: 0
   workersRequired: 0
   cooldownPeriod: 5
-  cost: 1
+  cost: 7
   health: 3
   damage: 1
   knockback: {x: 0.4, y: 0.84}
@@ -28,29 +28,77 @@ MonoBehaviour:
   moveSpeed: 1.41
   canMoveWhileActing: 0
   hasDeathAnimation: 1
+  actionDuration: 0
   actionDmgInterruptThreshold: 0
   hitsAllInRange: 0
   actionCD: 1.2
   hasSpecial: 0
   specialCost: 0
   isRanged: 0
-  range: 3
+  range: 5.26
   projectileSpeed: 3.6
   accuracy: 40
-  u_buildTime: 0
-  u_workersRequired: 0
-  u_cooldownPeriod: 0
-  u_cost: 0
-  u_health: 0
-  u_damage: 0
-  u_knockback: {x: 0, y: 0}
-  u_recoil: {x: 0, y: 0}
-  u_moveSpeed: 0
-  u_actionDmgInterruptThreshold: 0
-  u_actionCD: 0
-  u_hasSpecial: 0
-  u_specialCost: 0
-  u_isRanged: 0
-  u_range: 0
-  u_projectileSpeed: 0
-  u_accuracy: 0
+  isAvailable: 0
+  upgrades:
+    reorderableList:
+      canAdd: 1
+      canRemove: 1
+      draggable: 1
+      expandable: 1
+      multipleSelection: 1
+      isExpanded: 1
+      label:
+        m_Text: Keys
+        m_Image: {fileID: 0}
+        m_Tooltip: 
+      headerHeight: 18
+      footerHeight: 13
+      slideEasing: 0.15
+      verticalSpacing: 2
+      showDefaultBackground: 1
+      elementDisplayType: 0
+      elementNameProperty: 
+      elementNameOverride: 
+      elementIcon: {fileID: 0}
+    reqReferences: {fileID: 0}
+    isExpanded: 1
+    _keyValues: 030000000c0000000a0000000b000000
+    _keys: 030000000c0000000a0000000b000000
+    _values:
+    - overrideName: 
+      f: 0
+      i: 1
+      b: 0
+      vec2: {x: 0, y: 0}
+      projectilePrefab: {fileID: 0}
+      cost: 01000000
+      rank: 2
+      rankMax: 5
+    - overrideName: 
+      f: 2
+      i: 0
+      b: 0
+      vec2: {x: 0, y: 0}
+      projectilePrefab: {fileID: 0}
+      cost: 02000000
+      rank: 0
+      rankMax: 3
+    - overrideName: 
+      f: 0
+      i: 0
+      b: 0
+      vec2: {x: 0, y: 0}
+      projectilePrefab: {fileID: 0}
+      cost: 0a000000
+      rank: 0
+      rankMax: 1
+    - overrideName: 
+      f: 0
+      i: 0
+      b: 0
+      vec2: {x: 0, y: 0}
+      projectilePrefab: {fileID: 227296971645971604, guid: 60835c14ab0117945979b6b6d155dab7, type: 3}
+      cost: 0a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a0000000a000000
+      rank: 0
+      rankMax: 1
+  isUnlocked: 0

@@ -31,15 +31,15 @@ public class PlayerManager : Singleton<PlayerManager>
     public Transform enemyBase;
     public Transform playerBase;
     public AbilityScriptableObject currentAbility;
+    public Canvas playerCanvas;
     [Header("Temp")]
     public GameObject winScreen;
     public GameObject loseScreen;
     private bool hasLoaded;
-
+    public bool levelWin;
     public int Money { get => money; set { money = value; if(moneyText) moneyText.text = money.ToString(); PlayerRecording.Instance.MoneyEarnedTotal += 1; } }
     //temp solution
     public int Mana { get => mana; set { mana = value; if (manaText) manaText.text = mana.ToString(); } }
-
     private void Start()
     {
 
@@ -74,7 +74,9 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     public bool CheckPurchase(UnitScriptableObject unit)
     {
-        if (Money - unit.cost >= 0)
+        if (GameManager.Instance.isDebug)
+            return true;
+        if (Money - unit.Cost >= 0)
         {
             return true;
         }
@@ -96,8 +98,9 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     public void BuyUnit(UnitScriptableObject unit)
     {
-        PlayerRecording.Instance.MoneyEarnedTotal -= unit.cost;
-        Money -= unit.cost;
+        PlayerRecording.Instance.MoneyEarnedTotal -= unit.Cost;
+        EnemyManager.Instance.spawnedUnit.Invoke(unit);
+        Money -= unit.Cost;
         if(!unit.isStructure)
             SpawnUnit(unit);
     }
@@ -105,6 +108,59 @@ public class PlayerManager : Singleton<PlayerManager>
     {
         isPlaced = false;
         //I dont like this here
+#if UNITY_IOS || UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
+            bool twoFingersDown = false;
+            Touch touch = Input.GetTouch(0);
+            if (Input.touchCount == 2)
+                twoFingersDown = true;
+
+            Vector3 touchLoc = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
+            if (twoFingersDown && isPlacing)
+            {
+                isPlaced = true;
+                return;
+            }
+
+            // Handle finger movements based on touch phase.
+            switch (touch.phase)
+            {
+                // Record initial touch position.
+                case TouchPhase.Began:
+                    break;
+
+                // Determine direction by comparing the current touch position with the initial one.
+                case TouchPhase.Moved:
+             
+
+                    break;
+
+                // Report that a direction has been chosen when the finger is lifted.
+                case TouchPhase.Ended:
+                    break;
+            }
+
+            //Handle what is being touched here (negate collider overlap with logic)
+            Collider2D[] hits = Physics2D.OverlapCircleAll(touchLoc, .3f);
+            foreach (Collider2D hit in hits)
+            {
+                Pickup pick = hit.GetComponent<Pickup>();
+                if (pick != null)
+                {
+                    pick.OnPressed();
+                    break;
+                }
+              
+            }
+
+            if (currentAbility != null)
+            {
+                currentAbility.executeEffect.Invoke();
+            }
+        }
+#else
+
         if (Input.GetMouseButtonDown(0))
         {
             if(isPlacing)
@@ -116,6 +172,7 @@ public class PlayerManager : Singleton<PlayerManager>
         }            
         else if (Input.GetMouseButtonDown(1))
             CancelPlacing();
+#endif
     }
     public void TryPlacingUnit(UnitScriptableObject unit, Action donePlacingAction)
     {
@@ -141,36 +198,51 @@ public class PlayerManager : Singleton<PlayerManager>
         currentPlacingGO = unit;
         isPlaced = false;
         isPlacing = true;
-
         unit.GetComponent<IPlaceable>().Placing(true);
-        while (isPlacing)
-        {           
-            Vector2 mousePos = Input.mousePosition;
-            point = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0));
-            unit.transform.position = new Vector3(point.x, point.y, 0);
+        Action onFinished;
+       // onFinished = CameraController.Instance.FocusOnTarget(unit.transform);
 
+        while (isPlacing)
+        {
+            if (Input.touchCount > 0)
+            {
+                CameraController.Instance.LockCameraControl(true);
+                Touch touch = Input.GetTouch(0);
+                point = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
+                unit.transform.position = new Vector3(point.x, point.y, 0);
+            }
+            else
+            {
+                CameraController.Instance.LockCameraControl(false);
+            }
             yield return new WaitForEndOfFrame();
 
             if (unit.GetComponent<IPlaceable>().IsValidPosition() && isPlaced)
             {
                 isPlacing = false;
-            }
+            }            
         }
-
-        if(isPlacingCancelled) //is placed
+        CameraController.Instance.LockCameraControl(false);
+        if (isPlacingCancelled) //is placed
         {
             Destroy(currentPlacingGO);
         }
         else
         {
+            if(!unit.GetComponent<IPlaceable>().IsValidPosition()) //needs refactoring
+            {
+                Destroy(currentPlacingGO);
+            }
             unit.GetComponent<IPlaceable>().Placing(false);
             BuyUnit(unit.GetComponent<Unit>().GetInfo());
             donePlacingAction.Invoke();
         }
+     //   onFinished.Invoke();
 
     }
     public void GameOver(bool isWin)
     {
+        levelWin = isWin;
         if (isWin)
             winScreen.SetActive(true);
         else

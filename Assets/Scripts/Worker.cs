@@ -5,6 +5,7 @@ using UnityEngine;
 public class Worker : Unit
 {
     private Structure currentBuildJob;
+    private WorkerTrigger currentTrigger;
     private bool isOnTheJob;
     protected override void Start()
     {
@@ -16,6 +17,8 @@ public class Worker : Unit
         var job = PlayerManager.Instance.CheckForStructures();
         if (job)
             StartJob(job);
+        else
+            CheckForResources();
     }
     public Structure GetBuildJob()
     {
@@ -27,26 +30,36 @@ public class Worker : Unit
     }
     IEnumerator Building()
     {
-        while (currentBuildJob && !currentBuildJob.Build(Time.deltaTime))
+        while (!currentTrigger.Build(Time.deltaTime))
         {
             yield return new WaitForEndOfFrame();
         }
+        CheckForResources();
     }
     public void CancelBuilding()
     {
         StopAllCoroutines();
     }
+    public void EnteredTrigger(WorkerTrigger source)
+    {
+        this.currentTrigger = source;
+        StartBuilding();
+    }
+    public void ExitSource(WorkerTrigger source)
+    {
+        this.currentTrigger = null;
+        if(currentTrigger == source) //left the previous trigger
+            StopBuilding();
+    }
     public void StartBuilding()
     {
         Build();
-        Debug.Log("WOrker has begun building");
     }
     public void StopBuilding()
     {
         if (currentBuildJob == null) //messes with the coroutine otherwise if colliders are together
             return;
         CancelBuilding();
-        Debug.Log("WOrker has stopped building");
     }
     private void StartJob(Structure job)
     {
@@ -62,18 +75,44 @@ public class Worker : Unit
     }
     public void EndJob(Structure job)
     {
-        Debug.Log("WOrker has ended job");
-
         //NOt me!
         if (job != currentBuildJob)
             return;
         isOnTheJob = false;
         currentBuildJob = null;
-        ChangeTarget(homeBase);
+        CheckForResources();
         //Check for another job
         var jobs = PlayerManager.Instance.CheckForStructures();
         if (jobs)
             StartJob(jobs);
+    }
+    //Check for resources to start mining if available
+    bool CheckForResources()
+    {
+        KeyValuePair<Collider2D, float> closest = new KeyValuePair<Collider2D, float>(null, Mathf.Infinity);
+        float distance = Mathf.Infinity;
+        foreach(var coll in Physics2D.OverlapCircleAll(transform.position, info.range))
+        {
+            if (coll.GetComponent<WorkerTrigger>() == null)
+                continue;
+            distance = Vector2.Distance(coll.transform.position, transform.position);
+            if (distance < closest.Value )
+            {
+                closest = new KeyValuePair<Collider2D, float>(coll, distance);
+            }
+        }
+
+        if (closest.Key != null)
+        {
+            ChangeTarget(closest.Key.transform);
+
+            return true;
+        }
+        else
+        {
+            ChangeTarget(homeBase);
+            return false;
+        }
     }
     private void StartBuilding(Collision2D target)
     {
@@ -88,11 +127,11 @@ public class Worker : Unit
 
     protected override void Action()
     {
-        throw new System.NotImplementedException();
+       // throw new System.NotImplementedException();
     }
 
     public override void TryAction()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }

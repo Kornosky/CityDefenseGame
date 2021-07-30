@@ -53,8 +53,6 @@ MonoBehaviour:
   hpBar: {fileID: 4412219556701537344}
   stateMachine: {fileID: 2964954465101790372}
   isActing: 0
-  projectile: {fileID: 0}
-  projSpawnLoc: {fileID: 0}
   toVel: 0.1
   maxVel: 1
   maxForce: 20

@@ -4,4 +4,15 @@
 PresetManager:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_DefaultPresets: {}
+  m_DefaultPresets:
+  - first:
+      m_NativeTypeID: 1006
+      m_ManagedTypePPtr: {fileID: 0}
+      m_ManagedTypeFallback: 
+    second:
+    - m_Preset: {fileID: 2655988077585873504, guid: 9ef7f5f9f8056f2479a066140a2937bd, type: 2}
+      m_Filter: 'glob: "Sprites/VFX/*.png"'
+      m_Disabled: 0
+    - m_Preset: {fileID: 2655988077585873504, guid: 9ef7f5f9f8056f2479a066140a2937bd, type: 2}
+      m_Filter: VFX Import
+      m_Disabled: 1

@@ -41,10 +41,17 @@ public abstract class CooldownButton<T> : MonoBehaviour
         button.interactable = false;
         while(timer > 0)
         {
+            if (Time.timeScale == 0) //is paused
+            {
+                yield return new WaitForEndOfFrame();
+                continue;
+            }
+
             timer -= Time.deltaTime;
             cdOverlaySlider.fillAmount=  timer / cooldownPeriod;
             cdOVerlayTimerText.text = (Mathf.CeilToInt(timer)).ToString();
             yield return new WaitForEndOfFrame();
+
         }
         AfterCD();
         //  isAttacking = false;

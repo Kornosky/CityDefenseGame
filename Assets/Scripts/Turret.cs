@@ -39,14 +39,15 @@ public class Turret : Structure, IPlaceable
         if (isPlacing)
         {
             Activate(false);
+            gameObject.layer = LayerMask.NameToLayer("Placing");
             placingTween = Tween.LocalScale(spriteRenderer.transform, Vector3.one * 1.2f, .2f, 0, Tween.EaseOutStrong, Tween.LoopType.PingPong);
             hpBar.gameObject.SetActive(false);
         }
         else
         {
-            hpBar.gameObject.SetActive(true);
             spriteRenderer.color = Color.white;
-            placingTween.Cancel();
+            placingTween?.Cancel();
+            rb.isKinematic = true;
             Activate(true);
             //Needs to be built
             if (info.buildTime > 0)
@@ -56,6 +57,7 @@ public class Turret : Structure, IPlaceable
             }
         }
     }
+
 
     public void Built(bool isBuilt)
     {
