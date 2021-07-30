@@ -58,7 +58,23 @@ public class CameraController : SingletonDDOL<CameraController>
             Camera.main.orthographicSize = originalSize;
         }
     }
+    public void ChangeCameraBounds(GameObject[] objects)
+    {
+        //Get bounds of map for scrolling camera based off of objects
+        Bounds bounds = new Bounds(objects[0].transform.position, Vector3.one);
+        foreach (var obj in objects)
+        {
+            bounds.Encapsulate(obj.GetComponentInChildren<Renderer>().bounds);
+        }
 
+        mobileTouchCamera.BoundaryMax = bounds.max;
+        mobileTouchCamera.BoundaryMin = bounds.min;
+    }
+    public void ChangeCameraBounds(Bounds bounds)
+    {
+        mobileTouchCamera.BoundaryMax = bounds.max;
+        mobileTouchCamera.BoundaryMin = bounds.min;
+    }
     public void LockCameraControl(bool isLocked)
     {
         touchInputController.IsInputOnLockedArea = isLocked;

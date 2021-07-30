@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f43b6aeaf0a152b419b15de028511cc4, type: 3}
-  m_Name: LevelInfo 3
+  m_Name: Level 4
   m_EditorClassIdentifier: 
-  levelNumber: 1
-  name: 
+  levelNumber: 4
+  levelName: 
   difficulty: 3
   units:
   - {fileID: 11400000, guid: 665ddc57121e0d64698655446917e87f, type: 2}

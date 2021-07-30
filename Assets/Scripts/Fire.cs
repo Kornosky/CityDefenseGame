@@ -43,9 +43,22 @@ public class Fire : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
+        Flammable flamObj = collision.gameObject.GetComponent<Flammable>();
         if (collision.GetComponent<IDamageable>() != null)
         {
             unitsInTrigger.Add(new UnitEnterTime(collision.GetComponent<Unit>(), 0));
+        }
+        else if (flamObj && !flamObj.onFire)
+        {
+            flamObj.SetOnFire();
+            //set on fire
+            var fire = Resources.Load<GameObject>("Fire");
+            Bounds bounds = flamObj.GetComponentInChildren<Renderer>().bounds;
+            int flameCount = (int) (bounds.size.x * bounds.size.y);
+            for (int i = 0; i < flameCount; i++)
+            {
+                Instantiate(fire, GeneralUtility.RandomPointInBounds(bounds), Quaternion.identity);
+            }
         }
     }
 

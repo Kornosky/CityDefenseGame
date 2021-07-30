@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
-[CreateAssetMenu(fileName = "LevelInfo", menuName = "ScriptableObjects/LevelInfo", order = 1)]
+[CreateAssetMenu(fileName = "Level", menuName = "ScriptableObjects/LevelInfo", order = 1)]
 
 public class LevelScriptableObject : ScriptableObject
 {
     public int levelNumber;
-    public new string name;
+    public string levelName;
     public int difficulty;
     public UnitScriptableObject[] units;
     [Header("Visuals")]
@@ -18,6 +20,11 @@ public class LevelScriptableObject : ScriptableObject
     [Header("Meta")]
     public bool isBeat;
 
+
+    private void OnValidate()
+    {
+        levelNumber = Int32.Parse(Regex.Match(name, @"\d+").Value);
+    }
     //Maybe i don't need this? Just a dict of lvNum and bool
     public void Load()
     {

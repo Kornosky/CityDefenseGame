@@ -41,6 +41,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     protected Transform homeBase;
     protected UnitAnimator unitAnimator;
     protected bool isFacingRight;
+    protected bool canMove = true;
     public float toVel = .1f;
     public float maxVel = 1.0f;
     public float maxForce = 20.0f;
@@ -79,6 +80,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
             return;
         if (isGrounded && goalTarget != null)
         {
+            ////if the linecast hits a structure, then 
+            //if(Physics2D.Linecast())
             Move();
         }       
     }
@@ -101,6 +104,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         // calc a force proportional to the error (clamped to maxForce)
         Vector2 force = Vector2.ClampMagnitude(gain * error, maxForce);
         rb.AddForce(force);
+
 
         if (rb.velocity.magnitude == Mathf.Epsilon)
         {

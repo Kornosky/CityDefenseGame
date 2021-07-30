@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class PlayCanvas : MenuElement
     GameObject levelPrefab;
     GameObject linePrefab;
     [SerializeField] Transform levelsLocation;
+    List<GameObject> currentMap = new List<GameObject>();
 
     bool isMapInitialized;
     private void Start()
@@ -25,26 +27,49 @@ public class PlayCanvas : MenuElement
         levelsLocation.gameObject.SetActive(isVisible);
         CameraController.Instance?.EnableCameraTouch(isVisible);
     }
+    [Button("Redo Map")]
+    public void Redo()
+    {
+        foreach (var obj in currentMap) Destroy(obj);
+        currentMap.Clear();
+        GameManager.Instance.data.randomSeed = Random.Range(1, 100);
+        InitMap();
+    }
     public void InitMap()
     {
         LevelMapView prevLevel = null;
-        foreach(var level in levels)
+
+        //Generate the same map for the player every time
+        Random.InitState(GameManager.Instance.data.randomSeed);
+        GameObject[] firstAndLast = new GameObject[2];
+        LevelMapView lvGO = null;
+        foreach (var level in levels)
         {
-            var lvGO = Instantiate(levelPrefab, levelsLocation).GetComponent<LevelMapView>();
+            lvGO = Instantiate(levelPrefab, levelsLocation).GetComponent<LevelMapView>();
             lvGO.Init(level);
 
             if(prevLevel)
             {
                 var line = Instantiate(linePrefab, levelsLocation).GetComponent<LineRenderer>();
+                currentMap.Add(line.gameObject);
 
                 //Give random location
-                lvGO.transform.position = Random.insideUnitCircle * 2 + Vector2.one + (Vector2) prevLevel.transform.position;
+                lvGO.transform.position = Random.insideUnitCircle * 2 + new Vector2(1, Random.Range(-1f, 1f)) * 2.5f + (Vector2) prevLevel.transform.position;
                 //Draw line
                 DrawLine(line, lvGO.transform.position, prevLevel.transform.position);
             }
-
+            else
+            {
+                firstAndLast[0] = lvGO.gameObject;
+            }
+            currentMap.Add(lvGO.gameObject);
             prevLevel = lvGO;
         }
+        firstAndLast[1] = lvGO.gameObject;
+
+    
+
+        CameraController.Instance.ChangeCameraBounds(currentMap.ToArray());
     }
 
 

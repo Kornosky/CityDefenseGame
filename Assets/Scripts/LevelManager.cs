@@ -40,6 +40,7 @@ public class LevelManager : Singleton<LevelManager>
         PlayerManager.Instance.Init(info);
         EnemyManager.Instance.Init(info);
         CameraController.Instance.cam = Camera.main;
+        CameraController.Instance.ChangeCameraBounds(new GameObject[] { PlayerManager.Instance.playerBase.gameObject, PlayerManager.Instance.enemyBase.gameObject });
     }
     protected override void Awake()
     {

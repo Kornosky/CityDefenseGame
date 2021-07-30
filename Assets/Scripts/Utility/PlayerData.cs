@@ -13,6 +13,7 @@ public class PlayerData
     public int money;
     public int levelProgress;
     public Dictionary<string, string> unitScriptableObjects  = new Dictionary<string, string>();
+    public int randomSeed;
     public PlayerData()
     {
        // FullReset();

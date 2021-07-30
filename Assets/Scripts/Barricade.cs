@@ -7,7 +7,13 @@ using UnityEngine;
 public class Barricade : Structure, IPlaceable
 {
     private TweenBase placingTween;
-
+    public bool isFlammable;
+    protected override void Awake()
+    {
+        base.Awake();
+        if (isFlammable)
+            gameObject.AddComponent<Flammable>();
+    }
     public bool IsValidPosition()
     {
         Collider2D myColl = GetComponent<Collider2D>();

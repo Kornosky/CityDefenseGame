@@ -34,10 +34,10 @@ public class SpawnablesUI : MonoBehaviour
         switch(n)
         {
             case "Unit":
-                structures.gameObject.SetActive(true);
+                units.gameObject.SetActive(true);
                 break;
             case "Struct":
-                units.gameObject.SetActive(true);
+                structures.gameObject.SetActive(true);
                 break;
             case "Misc":
                 break;

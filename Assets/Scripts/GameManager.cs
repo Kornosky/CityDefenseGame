@@ -36,7 +36,8 @@ public class GameManager : SingletonDDOL<GameManager>
         Application.targetFrameRate = 60;
         //Load 
         data = new PlayerData();
-        SaveSystem.LoadPlayer(ref data);
+
+        LoadPlayer();
         Debug.Log("ALERT ALERT " + data);
         //Set all things with loaded data
         LoadData?.Invoke();
@@ -51,7 +52,13 @@ public class GameManager : SingletonDDOL<GameManager>
         //StartCoroutine(AssessSources());
         loadingScreen = Instantiate(Resources.Load<GameObject>("LoadingScreen"), transform).GetComponent<LoadingScreen>();
     }
-
+    private void LoadPlayer()
+    {
+        SaveSystem.LoadPlayer(ref data);
+        //Generate new random seed if after loading data, the seed was 0
+        if (data.randomSeed == 0)
+            data.randomSeed = UnityEngine.Random.Range(1, 111);
+    }
     private void Start()
     {
         #region Debug
@@ -146,7 +153,7 @@ public class GameManager : SingletonDDOL<GameManager>
     {
         //load main        
         CutsceneManager.Instance.BeginScene(level.dialogueInfo);
-        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync("main");
+        AsyncOperation loadingOperation = SceneManager.LoadSceneAsync("Level");
         Action<AsyncOperation> action = (async) => LevelManager.Instance.LoadLevel(level);
         loadingOperation.completed += action;
         //lazy load
