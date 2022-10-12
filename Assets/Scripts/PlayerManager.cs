@@ -101,7 +101,7 @@ public class PlayerManager : Singleton<PlayerManager>
         PlayerRecording.Instance.MoneyEarnedTotal -= unit.Cost;
         EnemyManager.Instance.spawnedUnit.Invoke(unit);
         Money -= unit.Cost;
-        if(!unit.isStructure)
+        if(!(unit is StructureScriptableObject))
             SpawnUnit(unit);
     }
     private void Update()

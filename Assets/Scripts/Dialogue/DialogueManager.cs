@@ -36,7 +36,6 @@ public class DialogueManager : MenuElement
     
     private bool switchImage;
 
-    float progress = 0.0f;
     public bool stillTyping;
 
     protected override void Awake()
@@ -254,7 +253,6 @@ public class DialogueManager : MenuElement
         {
             writer.FinishNow();
         }
-        progress = 0f;
     }
 
     private void CloseDialogue()

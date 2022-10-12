@@ -8,7 +8,7 @@ public class BuildBar : UIBar
 {
     public override void Init(UnitScriptableObject info)
     {
-        slider.maxValue = info.buildTime;
+        slider.maxValue =((StructureScriptableObject) info).buildTime;
         slider.value = 0;
         previousValue = 0;
         targetValue = 0;

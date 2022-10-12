@@ -152,7 +152,7 @@ public class EnemyManager : Singleton<EnemyManager>
     {
         ExpendAction(.4f);
         Unit temp = null;
-        if (unit.isStructure)
+        if (unit is StructureScriptableObject)
         {
            // temp = Instantiate(unit.prefab, location.position, Quaternion.identity).GetComponent<Unit>();
         }

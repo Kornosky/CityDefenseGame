@@ -10,7 +10,7 @@ public class WorkerTrigger : MonoBehaviour
     public UnityEvent<Worker> onTriggerExit;
     public Action onComplete;
     private float buildProgress;
-    public UnitScriptableObject info;
+    public StructureScriptableObject info;
     [SerializeField] BuildBar buildBar;
     Worker currentWorker;
     private void Awake()
@@ -29,7 +29,8 @@ public class WorkerTrigger : MonoBehaviour
     }
     public void Init(UnitScriptableObject info, Action onComplete)
     {
-        this.info = info;
+
+        this.info = (StructureScriptableObject) info;
         this.onComplete += onComplete;
         buildBar.Init(info);
     }

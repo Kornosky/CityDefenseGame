@@ -12,10 +12,7 @@ public class UnitScriptableObject : ScriptableObject
     [TextArea] public string description;
     public Sprite sprite;
     public GameObject prefab;
-    [Header("Structure")]
-    public bool isStructure;
-    public float buildTime;
-    public int workersRequired;
+
     [Header("General")]
     [SerializeField] private float cooldownPeriod;
     [SerializeField] private int cost;

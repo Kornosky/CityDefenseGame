@@ -8,7 +8,7 @@ public class UnitDeathState : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         unit = animator.GetComponentInParent<Unit>();
-        unit.DestroyInteraction();
+        unit.RemoveInteraction();
 
         if (unit.isEnemy)
         {

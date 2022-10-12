@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Worker : Unit
+public class Worker : Entity
 {
     private Structure currentBuildJob;
     private WorkerTrigger currentTrigger;

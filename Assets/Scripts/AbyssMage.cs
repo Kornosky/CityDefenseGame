@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Range))]
-public class AbyssMage : Unit
+public class AbyssMage : Entity
 {
     private Range range;
     protected override void Awake()
@@ -40,9 +40,13 @@ public class AbyssMage : Unit
         range.LobProjectile(gObj.transform.position);
 
         //Recoil
-        rb?.AddForce(new Vector2(-(gObj.transform.position - transform.position).normalized.x * info.recoil.x,
-                                                                info.recoil.y)
-                                                                , ForceMode2D.Impulse);
+        //Still knockback and wait even if there was no target (empty swing)
+        float recoilDirection = !isFacingRight ? -1f : 1f;
+        movement.Recoil(recoilDirection, info.recoil);
+
+        //rb?.AddForce(new Vector2(-(gObj.transform.position - transform.position).normalized.x * info.recoil.x,
+        //                                                        info.recoil.y)
+        //                                                        , ForceMode2D.Impulse);
         StopAllCoroutines();
         StartCoroutine(Wait());
 

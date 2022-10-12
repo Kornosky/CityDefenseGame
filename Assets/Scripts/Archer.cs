@@ -2,14 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(Range))]
-public class Archer : Unit
+public class Archer : Entity
 {
     private Range range;
 
-    protected override void FixedUpdate()
-    {   
-        base.FixedUpdate();
-    }
     protected override void Awake()
     {
         base.Awake();
@@ -45,9 +41,10 @@ public class Archer : Unit
         range.LaunchProjectile(gObj.transform.position);
 
         //Recoil
-        rb?.AddForce(new Vector2(-(gObj.transform.position - transform.position).normalized.x * info.recoil.x,
-                                                                info.recoil.y)
-                                                                , ForceMode2D.Impulse);
+        //Still knockback and wait even if there was no target (empty swing)
+        float recoilDirection = !isFacingRight ? -1f : 1f;
+        movement.Recoil(recoilDirection, info.recoil);
+
         StopAllCoroutines();
         StartCoroutine(Wait());
 

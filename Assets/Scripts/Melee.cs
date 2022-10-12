@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Melee : Unit
+public class Melee : Entity
 {
     AnimationClip damageAnimation;
     protected override void Awake()
@@ -15,14 +15,6 @@ public class Melee : Unit
         base.Start();
         if (isEnemy) ChangeTarget(PlayerManager.Instance.playerBase);
         else ChangeTarget(PlayerManager.Instance.enemyBase);
-    }
-    protected override void Flipped(bool isFacingRight)
-    {
-        base.Flipped(isFacingRight);
-        if(isFacingRight)
-            actionCollider.transform.localPosition = new Vector2(-actionCollider.transform.localPosition.x, actionCollider.transform.localPosition.y);
-        else
-            actionCollider.transform.localPosition = actionCollider.transform.localPosition;
     }
 
     //Play the attack animation because something damagable has come into range
@@ -61,8 +53,7 @@ public class Melee : Unit
         }
         //Still knockback and wait even if there was no target (empty swing)
         float recoilDirection = !isFacingRight ? -1f : 1f;
-        if(rb != null)
-            rb?.AddForce(new Vector2(recoilDirection * info.recoil.x, info.recoil.y), ForceMode2D.Impulse);
+        movement.Recoil(recoilDirection, info.recoil);  
 
         StopAllCoroutines();
         StartCoroutine(Wait());

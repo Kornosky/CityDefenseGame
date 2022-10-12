@@ -25,116 +25,32 @@ public struct HealthBundle
 
 public abstract class Unit : MonoBehaviour, IDamageable
 {
-    [SerializeField] protected UnitScriptableObject info;
+    protected UnitScriptableObject info;
     public bool isEnemy;
     [SerializeField] protected Healthbar hpBar;
     protected SpriteRenderer spriteRenderer;
     [SerializeField] protected Animator stateMachine;
-    protected Rigidbody2D rb;
-    protected Transform goalTarget;
+    public Transform goalTarget;
     protected ActionCollider actionCollider;
-    [SerializeField] protected bool isActing = false;
+    [SerializeField] public bool isActing = false;
     [Header("Needs Refactoring")]
-    protected bool isGrounded = false;
+    public bool isGrounded = false;
     protected bool isDead = false;
     private bool arrivedAtDestination = false;
-    protected Transform homeBase;
+    public Transform homeBase;
     protected UnitAnimator unitAnimator;
     protected bool isFacingRight;
     protected bool canMove = true;
-    public float toVel = .1f;
-    public float maxVel = 1.0f;
-    public float maxForce = 20.0f;
-    public float gain = 5f;
-    public bool isInvicible;
 
+    public bool isInvicible;
 
     GameObject coinPrefab;
     GameObject manaPrefab;
     GameObject vfxPrefab;
 
-    //TODO get closest point somewhere on the actual unit... if possible
-    public Vector3 GetClosestPoint(Vector3 location)
-    {
-        return spriteRenderer.bounds.ClosestPoint(location);
-    }
-
-    protected virtual void Start()
-    {
-        actionCollider.actionEvent.AddListener(TryAction);
-        unitAnimator?.actionEvent.AddListener(Action);
-       // unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
-    }
-
-    public HealthBundle GetHealth()
-    {
-        return hpBar.GetHealth();
-    }
-    protected virtual void Flipped(bool isFacingLeft)
-    {
-        spriteRenderer.flipX = isFacingLeft;
-    }
-    protected virtual void FixedUpdate()
-    {
-        if (!info.canMoveWhileActing && isActing)
-            return;
-        if (isGrounded && goalTarget != null)
-        {
-            ////if the linecast hits a structure, then 
-            //if(Physics2D.Linecast())
-            Move();
-        }       
-    }
-
-    protected virtual void Move()
-    {
-        Vector2 dist = goalTarget.position - transform.position;
-        bool isFlipped = dist.x < 0;
-        if (isFacingRight != isFlipped && rb.velocity.magnitude != Mathf.Epsilon)
-        {
-            isFacingRight = isFlipped;
-            Flipped(isFacingRight);
-        }
-
-        dist.y = 0; // ignore height differences
-                    // calc a target vel proportional to distance (clamped to maxVel)
-        Vector2 tgtVel = Vector2.ClampMagnitude(20 * dist, info.MoveSpeed);
-        // Vector2 the velocity error
-        Vector2 error = tgtVel - rb.velocity;
-        // calc a force proportional to the error (clamped to maxForce)
-        Vector2 force = Vector2.ClampMagnitude(gain * error, maxForce);
-        rb.AddForce(force);
-
-
-        if (rb.velocity.magnitude == Mathf.Epsilon)
-        {
-            stateMachine?.SetBool("Moving", false);
-        }
-        else
-        {
-            stateMachine?.SetBool("Moving", true);
-        }
-    }
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
-    {      
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
-
-    protected virtual void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
-
     protected virtual void Awake()
     {
         actionCollider ??= GetComponentInChildren<ActionCollider>(true);
-        rb ??= GetComponent<Rigidbody2D>();
         spriteRenderer ??= GetComponentInChildren<SpriteRenderer>(true);
         hpBar ??= GetComponentInChildren<Healthbar>(true);
         stateMachine ??= GetComponentInChildren<Animator>(true);
@@ -146,6 +62,24 @@ public abstract class Unit : MonoBehaviour, IDamageable
         vfxPrefab = Resources.Load("VFX") as GameObject;
         PlayerRecording.Instance.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, 1);
         PlayerManager.Instance.activeUnits.Add(this);
+    }
+    protected virtual void Start()
+    {
+        actionCollider.actionEvent.AddListener(TryAction);
+        unitAnimator?.actionEvent.AddListener(Action);
+       // unitAnimator?.hitFinishedEvent.AddListener(FinishedHit);
+    }
+
+
+    //TODO get closest point somewhere on the actual unit... if possible
+    public Vector3 GetClosestPoint(Vector3 location)
+    {
+        return spriteRenderer.bounds.ClosestPoint(location);
+    }
+
+    public HealthBundle GetHealth()
+    {
+        return hpBar.GetHealth();
     }
     protected void ChangeTarget(Transform location)
     {
@@ -165,12 +99,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
             Instantiate(manaPrefab, transform.position, Quaternion.identity);
         }
     }
-    public void DestroyInteraction()
+    public void RemoveInteraction()
     {
-        //Destroy(rb);
-        //Destroy(GetComponent<Collider2D>());
         ChangeLayer(true, "NoUnitCollision");
-        //Destroy(actionCollider.gameObject);
     }
     public void Invincibility(bool isInvincible)
     {
@@ -185,18 +116,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
             Debug.LogError(this + " is missing it's info");
 
         this.isEnemy = isEnemy;
-        if (isEnemy)
-        {
-            isFacingRight = !isEnemy; //hmmm
-            homeBase = PlayerManager.Instance.enemyBase;
-        }
-        else
-        {
 
-            isFacingRight = isEnemy; //hmmm
-            homeBase = PlayerManager.Instance.playerBase;
-        }
-        Flipped(isFacingRight);
         ChangeLayer(isEnemy);
         hpBar.Init(this.info);
     }
@@ -229,6 +149,23 @@ public abstract class Unit : MonoBehaviour, IDamageable
                 child.gameObject.layer = LayerMask.NameToLayer("Player");
             }
         }
+    }
+
+    public enum States { MOVING, RECOIL, HIT, ATTACK, DEATH }
+    public void ChangeState(States state, bool isBool = false, bool boolState = false)
+    {
+        if(isBool)
+            stateMachine?.SetBool(char.ToUpper(state.ToString()[0]) + state.ToString().Substring(1), boolState);
+        else
+            stateMachine?.SetTrigger(char.ToUpper(state.ToString()[0]) + state.ToString().Substring(1));
+
+    }
+    public void ChangeState(string state, bool isBool = false, bool boolState = false)
+    {
+        if(isBool)
+            stateMachine?.SetBool(state, boolState);
+        else
+            stateMachine?.SetTrigger(state);
     }
     public UnitScriptableObject GetInfo()
     {
@@ -267,30 +204,41 @@ public abstract class Unit : MonoBehaviour, IDamageable
 
         if (info.hasDeathAnimation)
         {
-            DestroyInteraction();
+            RemoveInteraction();
             //Play animation 
-            stateMachine.SetTrigger("Death");
+            ChangeState(States.DEATH);
         }
         else
             Destroy(gameObject);
     }
 
-    public virtual void GetHit(int damage, Vector3 sourcePos, Vector2 knockback, Vector3 location, AnimationClip vfx)
+    /// <summary>
+    /// When unit gets hit by damaging object
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="sourcePos"></param>
+    /// <param name="knockback"></param>
+    /// <param name="location"></param>
+    /// <param name="vfx"></param>
+    /// <returns>Returns true if the hit completes/lands </returns>
+    public virtual bool GetHit(int damage, Vector3 sourcePos, Vector2 knockback, Vector3 location, AnimationClip vfx)
     {
         if (isInvicible)
-            return;
+            return false;
 
-        rb.AddForce(new Vector2((gameObject.transform.position - sourcePos).normalized.x * knockback.x, knockback.y), ForceMode2D.Impulse);
         TakeDamage(damage, location, vfx);
+
+        return true;
     }
     
-    public virtual void GetHit(int damage, Vector3 sourcePos, Vector2 knockback)
+    public virtual bool GetHit(int damage, Vector3 sourcePos, Vector2 knockback)
     {
         if (isInvicible)
-            return;
+            return false;
 
-        rb.AddForce(new Vector2((gameObject.transform.position - sourcePos).normalized.x * knockback.x, knockback.y), ForceMode2D.Impulse);
         TakeDamage(damage);
+
+        return true;
     }
 
     //Wrapper VFX damage
@@ -313,14 +261,13 @@ public abstract class Unit : MonoBehaviour, IDamageable
         if (isInvicible)
             return false;
 
-
         hpBar.UpdateValue(-dmg);
         if (hpBar.GetValue() <= 0)
         {
             //is now dead
-            
-            if(stateMachine)
-                stateMachine.SetTrigger("Death");
+
+            if (stateMachine)
+                ChangeState(States.DEATH);
             else
                 Death();
             return true;
@@ -331,8 +278,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
         {
             //reset so they can attack
             isActing = true;
-            if(stateMachine)
-                stateMachine?.SetTrigger("Hit");
+            ChangeState(States.HIT);
         }//less likely based off damage difference
      
         return false;
@@ -343,11 +289,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         isActing = false;
         TryAction();
-    }
-    protected virtual void OnDestroy()
-    {
-        PlayerManager.Instance?.activeUnits?.Remove(this);
-        PlayerRecording.Instance?.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, -1);
     }
     //Each unit has a unique action
     protected abstract void Action();
@@ -371,6 +312,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
         }
         Debug.LogError(clipName + " was not found for " + gameObject);
         return null;
+    }
+    protected virtual void OnDestroy()
+    {
+        PlayerManager.Instance?.activeUnits?.Remove(this);
+        PlayerRecording.Instance?.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, -1);
     }
 
 }

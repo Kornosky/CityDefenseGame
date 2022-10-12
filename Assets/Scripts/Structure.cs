@@ -9,10 +9,12 @@ using Pixelplacement.TweenSystem;
 public abstract class Structure : Unit
 {
     [Header("Structure Class")]
+    [SerializeField] protected new StructureScriptableObject info;
     private bool isBuilt;
     private List<Worker> workers = new List<Worker>();
     public float buildProgress;
     protected bool isActive;
+    protected Rigidbody2D rb;
 
     [SerializeField] WorkerTrigger workerTrigger;
 
@@ -27,6 +29,7 @@ public abstract class Structure : Unit
     {
         base.Awake();
         workerTrigger ??= GetComponentInChildren<WorkerTrigger>();
+        rb ??= GetComponentInChildren<Rigidbody2D>();
         buildProgress = 0;
     }   
     protected override void Start()

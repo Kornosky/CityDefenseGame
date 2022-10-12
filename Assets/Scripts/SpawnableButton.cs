@@ -19,7 +19,7 @@ public class SpawnableButton : CooldownButton<UnitScriptableObject>
     public override void OnPressed()
     {
         base.OnPressed();
-        if(info.isStructure)
+        if(info is StructureScriptableObject)
         {
             if (PlayerManager.Instance.CheckPurchase(info))
             {

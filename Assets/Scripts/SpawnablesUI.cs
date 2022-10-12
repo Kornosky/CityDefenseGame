@@ -8,6 +8,7 @@ public class SpawnablesUI : MonoBehaviour
     List<Transform> menus = new List<Transform>();
     [SerializeField] RectTransform structures;
     [SerializeField] RectTransform units;
+    string currentMenu;
     private void Awake()
     {
         menus.Add(structures);
@@ -20,17 +21,22 @@ public class SpawnablesUI : MonoBehaviour
         {
             AddToGroup(unit);
         }
+        foreach (var menu in menus) menu.gameObject.SetActive(false);
     }
     public void AddToGroup(UnitScriptableObject unit)
     {
-        GameObject ui = unit.isStructure ? Instantiate(spawnableUIprefab, structures) : Instantiate(spawnableUIprefab, units);
+        GameObject ui = unit as StructureScriptableObject == null? Instantiate(spawnableUIprefab, structures) : Instantiate(spawnableUIprefab, units);
         var buttonUI = ui.GetComponent<SpawnableButton>();
         buttonUI.Init(unit);
     }
 
     public void Switch(string n)
     {
-        foreach (var menu in menus) menu.gameObject.SetActive(false);
+        //deactivate all if active
+        foreach (var menu in menus) if(menu.gameObject.activeSelf) menu.gameObject.SetActive(false);
+        //if it's the same button pressed, turn off all
+        if (currentMenu == n)
+            return;
         switch(n)
         {
             case "Unit":
