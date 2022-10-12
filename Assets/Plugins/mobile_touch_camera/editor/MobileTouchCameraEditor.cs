@@ -79,7 +79,7 @@ namespace BitBenderGames {
 
     private Vector3 DrawSphereHandle(Vector3 point, float handleSize) {
 #if UNITY_5_6_OR_NEWER
-      return Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.SphereHandleCap);
+      var fmh_82_44_637988324925970533 = Quaternion.identity; return Handles.FreeMoveHandle(point, handleSize, Vector3.one, Handles.SphereHandleCap);
 #else
       return Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.SphereCap);
 #endif
@@ -88,7 +88,7 @@ namespace BitBenderGames {
     private Vector3 DrawOneWayHandle(MobileTouchCamera mobileTouchCamera, float handleSize, Vector2 pRelative, float offset) {
       Vector3 point = mobileTouchCamera.UnprojectVector2(pRelative, offset);
 #if UNITY_5_6_OR_NEWER
-      Vector3 pointNew = Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.DotHandleCap);
+      var fmh_91_56_637988324926004723 = Quaternion.identity; Vector3 pointNew = Handles.FreeMoveHandle(point, handleSize, Vector3.one, Handles.DotHandleCap);
 #else
       Vector3 pointNew = Handles.FreeMoveHandle(point, Quaternion.identity, handleSize, Vector3.one, Handles.DotCap);
 #endif

@@ -25,13 +25,14 @@ public class SpawnablesUI : MonoBehaviour
     }
     public void AddToGroup(UnitScriptableObject unit)
     {
-        GameObject ui = unit as StructureScriptableObject == null? Instantiate(spawnableUIprefab, structures) : Instantiate(spawnableUIprefab, units);
+        GameObject ui = unit as StructureScriptableObject == null ? Instantiate(spawnableUIprefab, units) : Instantiate(spawnableUIprefab, structures);
         var buttonUI = ui.GetComponent<SpawnableButton>();
         buttonUI.Init(unit);
     }
 
     public void Switch(string n)
     {
+        Debug.Log(n);
         //deactivate all if active
         foreach (var menu in menus) if(menu.gameObject.activeSelf) menu.gameObject.SetActive(false);
         //if it's the same button pressed, turn off all

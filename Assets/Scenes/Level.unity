@@ -1883,17 +1883,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044d04b48f14bbc419d7c41c2bc2d08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 2f270a80a2613fb40b5854588592a4f4, type: 2}
   isEnemy: 0
   hpBar: {fileID: 0}
   stateMachine: {fileID: 0}
+  goalTarget: {fileID: 0}
   isActing: 0
-  toVel: 0.1
-  maxVel: 1
-  maxForce: 20
-  gain: 5
+  isGrounded: 0
+  homeBase: {fileID: 0}
   isInvicible: 0
-  info: {fileID: 0}
+  info: {fileID: 11400000, guid: 2f270a80a2613fb40b5854588592a4f4, type: 2}
   buildProgress: 0
   workerTrigger: {fileID: 0}
 --- !u!50 &298300672
@@ -3903,17 +3901,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044d04b48f14bbc419d7c41c2bc2d08a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: db56e7826f63b0048b6ef6d768f7de4d, type: 2}
   isEnemy: 1
   hpBar: {fileID: 0}
   stateMachine: {fileID: 0}
+  goalTarget: {fileID: 0}
   isActing: 0
-  toVel: 0.1
-  maxVel: 1
-  maxForce: 20
-  gain: 5
+  isGrounded: 0
+  homeBase: {fileID: 0}
   isInvicible: 0
-  info: {fileID: 0}
+  info: {fileID: 11400000, guid: db56e7826f63b0048b6ef6d768f7de4d, type: 2}
   buildProgress: 0
   workerTrigger: {fileID: 0}
 --- !u!4 &572230137

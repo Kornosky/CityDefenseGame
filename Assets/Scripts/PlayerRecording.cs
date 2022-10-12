@@ -18,6 +18,7 @@ public class PlayerRecording : SingletonDDOL<PlayerRecording>
 
     public void AddUnitsToDictionary(Dictionary<UnitScriptableObject, int> dict, UnitScriptableObject unit, int value)
     {
+        return;
         if (dict.ContainsKey(unit))
             dict[unit] += 1;
         else

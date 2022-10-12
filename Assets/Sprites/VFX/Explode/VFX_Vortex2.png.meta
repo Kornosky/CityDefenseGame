@@ -48,7 +48,7 @@ TextureImporter:
       213: 1446171830396415686
     second: VFX_Vortex2_14
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -65,10 +65,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -107,6 +109,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -146,6 +150,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -484,9 +500,24 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      VFX_Vortex2_12: 3738919526773750835
+      VFX_Vortex2_11: 3258910550722585913
+      VFX_Vortex2_5: -1405573843560295141
+      VFX_Vortex2_8: -5522630115070437435
+      VFX_Vortex2_0: 8826911200206024847
+      VFX_Vortex2_1: 341643919363472512
+      VFX_Vortex2_2: -2816878011216165535
+      VFX_Vortex2_6: 3907233295138904992
+      VFX_Vortex2_4: 6490165000440003223
+      VFX_Vortex2_14: 1446171830396415686
+      VFX_Vortex2_9: -5352586119808349194
+      VFX_Vortex2_13: -5413532004211563133
+      VFX_Vortex2_10: -8628553774256040331
+      VFX_Vortex2_3: -3472991082328086146
+      VFX_Vortex2_7: 8925254115595214192
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

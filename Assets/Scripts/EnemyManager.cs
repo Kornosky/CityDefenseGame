@@ -61,6 +61,12 @@ public class EnemyManager : Singleton<EnemyManager>
     }
     private void EnemyTick()
     {
+        if (GameManager.Instance.DebugActive("Spawn For Enemy"))
+        {
+            // Bounce if actived
+            return;
+        }
+
         bool spawnedSomething = false;
         int value = 0;
         foreach (var unit in PlayerRecording.Instance.UnitSpawnCount)
@@ -149,7 +155,7 @@ public class EnemyManager : Singleton<EnemyManager>
     }
 
     public void SpawnUnit(UnitScriptableObject unit)
-    {
+    {       
         ExpendAction(.4f);
         Unit temp = null;
         if (unit is StructureScriptableObject)
@@ -160,7 +166,7 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             temp = Instantiate(unit.prefab, location.position, Quaternion.identity).GetComponent<Unit>();
         }
-        temp.GetComponent<Unit>().Init(true);
+        temp.GetComponent<Unit>().Init(true, unit);
     }
 
     [Button("Spawn Sword")]

@@ -155,9 +155,9 @@ public abstract class Unit : MonoBehaviour, IDamageable
     public void ChangeState(States state, bool isBool = false, bool boolState = false)
     {
         if(isBool)
-            stateMachine?.SetBool(char.ToUpper(state.ToString()[0]) + state.ToString().Substring(1), boolState);
+            stateMachine?.SetBool(char.ToUpper(state.ToString()[0]) + (state.ToString().Substring(1)).ToLower(), boolState);
         else
-            stateMachine?.SetTrigger(char.ToUpper(state.ToString()[0]) + state.ToString().Substring(1));
+            stateMachine?.SetTrigger(char.ToUpper(state.ToString()[0]) + (state.ToString().Substring(1)).ToLower());
 
     }
     public void ChangeState(string state, bool isBool = false, bool boolState = false)
@@ -319,4 +319,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
         PlayerRecording.Instance?.AddUnitsToDictionary(PlayerRecording.Instance.ActiveUnits, info, -1);
     }
 
+    void IDamageable.GetHit(int damage, Vector3 sourcePos, Vector2 knockback)
+    {
+        GetHit(damage, sourcePos, knockback);
+    }
 }

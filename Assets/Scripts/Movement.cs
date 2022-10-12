@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Component that adds movement to Unit
+/// </summary>
 public class Movement : MonoBehaviour
 {
     protected SpriteRenderer spriteRenderer;
@@ -18,7 +20,8 @@ public class Movement : MonoBehaviour
 
     private void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        rb = GetComponentInChildren<Rigidbody2D>();
         unit = GetComponent<Unit>();
     }
     public void Recoil(float direction, Vector2 recoil)

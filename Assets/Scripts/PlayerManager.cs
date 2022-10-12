@@ -67,6 +67,12 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     public void SpawnUnit(UnitScriptableObject unit)
     {
+        if (GameManager.Instance.DebugActive("Spawn For Enemy"))
+        {
+            // Spawn for enemy instead
+            EnemyManager.Instance.SpawnUnit(unit);
+            return;
+        }
         PlayerRecording.Instance.AddUnitsToDictionary(PlayerRecording.Instance.UnitSpawnCount, unit, 1);
 
          var temp = Instantiate(unit.prefab, location.position, Quaternion.identity);

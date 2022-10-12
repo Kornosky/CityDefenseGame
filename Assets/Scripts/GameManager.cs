@@ -20,9 +20,15 @@ public class GameManager : SingletonDDOL<GameManager>
     #region Debug
     [Header("Debug")]
     public bool isDebug;
+    public bool isAnimationDebug;
     [SerializeField] public bool resetSaveInformation;
-
+    public bool paused;
     public PlayerData Data { get => data; set { data = value; updateStatsAction.Invoke(); } }
+    public Dictionary<string, bool> debugDict = new Dictionary<string, bool>(){
+        {"Spawn For Enemy", true },
+        {"Unlimited Money", false },
+        {"Unlimited Mana", false }
+    };
 
     #endregion
 #if UNITY_IOS || UNITY_ANDROID
@@ -72,6 +78,19 @@ public class GameManager : SingletonDDOL<GameManager>
         }
         #endregion
     }
+
+    public bool DebugActive(string debugType)
+    {
+        if(debugDict.ContainsKey(debugType) && isDebug)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     [ContextMenu("Reset")]
     public void ResetData()
     {

@@ -198,7 +198,7 @@ TextureImporter:
       213: 8719012395883297790
     second: _100x100px.png_64
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -215,10 +215,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -257,6 +259,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -296,6 +300,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1684,9 +1700,74 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      _100x100px.png_15: -8132957266321398982
+      _100x100px.png_0: -8616768861144748865
+      _100x100px.png_56: 7477029093252965774
+      _100x100px.png_62: 4658562783577409398
+      _100x100px.png_52: -4533384634684962271
+      _100x100px.png_48: 7281583528601619996
+      _100x100px.png_16: -2246042196528400764
+      _100x100px.png_59: 3760213911160411586
+      _100x100px.png_11: -5730861967814610462
+      _100x100px.png_26: 353129277992764730
+      _100x100px.png_54: 6067529103520634167
+      _100x100px.png_19: -6599788500342747584
+      _100x100px.png_53: 1702850646580160881
+      _100x100px.png_13: -6865948665365149842
+      _100x100px.png_23: 5274160289703995781
+      _100x100px.png_49: 8252306252879335809
+      _100x100px.png_27: -5367615590095590309
+      _100x100px.png_45: 3009571746479770928
+      _100x100px.png_3: 5088197488992141554
+      _100x100px.png_41: -4152168680392951948
+      _100x100px.png_5: 4176540727211647494
+      _100x100px.png_10: -5043624996058174586
+      _100x100px.png_32: -1299273628367215549
+      _100x100px.png_37: -1419707596721028744
+      _100x100px.png_63: 2311219166925895964
+      _100x100px.png_2: 3086488197321884847
+      _100x100px.png_57: -6153537833055580422
+      _100x100px.png_36: -3832679272020653724
+      _100x100px.png_12: -2395501373702797053
+      _100x100px.png_35: -7286346192867563246
+      _100x100px.png_21: 2981856422142062237
+      _100x100px.png_39: -1006031461508501453
+      _100x100px.png_29: 4528707911885720097
+      _100x100px.png_61: 7314883399351623824
+      _100x100px.png_43: 6928820959894805443
+      _100x100px.png_7: -4299687699827548890
+      _100x100px.png_51: -4112744518660162004
+      _100x100px.png_6: -7121682687167038156
+      _100x100px.png_38: -6646930492675281076
+      _100x100px.png_8: 9182168475869200046
+      _100x100px.png_18: 5638700196394484285
+      _100x100px.png_33: 6671567129255467050
+      _100x100px.png_31: -5682888586973566728
+      _100x100px.png_64: 8719012395883297790
+      _100x100px.png_17: -2055639735818547556
+      _100x100px.png_22: -7629376391162739674
+      _100x100px.png_58: -3936130221346222250
+      _100x100px.png_4: -4728662101729127314
+      _100x100px.png_24: -5635629670760264181
+      _100x100px.png_55: 3393123498330942346
+      _100x100px.png_25: -8893293314566773143
+      _100x100px.png_40: 4656197955513685787
+      _100x100px.png_9: -1014225030144012985
+      _100x100px.png_14: -7772169299178149389
+      _100x100px.png_60: -3113222896390883205
+      _100x100px.png_44: 5689499540040821279
+      _100x100px.png_50: 1088844008185394678
+      _100x100px.png_20: -5892725169260376356
+      _100x100px.png_46: 7562022783762423935
+      _100x100px.png_1: 6238599317469365279
+      _100x100px.png_28: 4548313298212395314
+      _100x100px.png_47: 4465417798821425735
+      _100x100px.png_34: -2774737770282208763
+      _100x100px.png_42: -566098175292771711
+      _100x100px.png_30: -1569443106150305126
   spritePackingTag: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -62,7 +62,7 @@ public class AbilityButton : CooldownButton<AbilityScriptableObject>
     }
     private void OnDestroy()
     {
-        AbilityManager.Instance.buttons.Remove(this);
+        AbilityManager.Instance?.buttons.Remove(this);
     }
     protected override void AfterCD()
     {

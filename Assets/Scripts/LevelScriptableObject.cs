@@ -23,7 +23,16 @@ public class LevelScriptableObject : ScriptableObject
 
     private void OnValidate()
     {
-        levelNumber = Int32.Parse(Regex.Match(name, @"\d+").Value);
+        try
+        {
+            levelNumber = Int32.Parse(Regex.Match(name, @"\d+").Value);
+        }
+        catch(Exception e)
+        {
+            Debug.Log(e);
+            levelNumber = 0;
+        }
+        
     }
     //Maybe i don't need this? Just a dict of lvNum and bool
     public void Load()
