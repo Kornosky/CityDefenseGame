@@ -1,21 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Resource : MonoBehaviour
+
+public class Resource : WorkerInteractable
 {
-    [SerializeField] UnitScriptableObject info;
-    [SerializeField] WorkerTrigger trigger;
-    private void Reset()
+
+    protected override void Start()
     {
-        trigger ??= GetComponentInChildren<WorkerTrigger>();
+        LevelManager.Instance.observedResourceCollection.Add(this);
+        base.Start();
     }
-    private void Start()
+    protected override void Interact()
     {
-        trigger.Init(info, IsGathered);
+        PlayerManager.Instance.Money += 2;
     }
-    public void IsGathered()
+
+    public override void OnWorkerCompleteInteract()
     {
-        PlayerManager.Instance.Money += 5;
         Destroy(gameObject);
+        foreach(Worker worker in interactingWorkers) // TODO would rather move this to an event
+        {
+            worker.ScanForGoal();
+        }
     }
+
+    public override void OnWorkerFailInteract()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.Instance.observedResourceCollection.Remove(this);
+
+    }
+
 }

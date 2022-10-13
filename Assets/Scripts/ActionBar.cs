@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Pixelplacement;
 
-public class BuildBar : UIBar
+public class ActionBar : UIBar
 {
     public override void Init(UnitScriptableObject info)
     {

@@ -15,6 +15,10 @@ public abstract class UIBar : MonoBehaviour
         slider = GetComponent<Slider>();        
     }
     public abstract void Init(UnitScriptableObject info);
+    public bool IsComplete()
+    {
+        return targetValue >= slider.maxValue;
+    }
     public void UpdateValue(float change)
     {
         targetValue = Mathf.Clamp(targetValue + change, 0, slider.maxValue);

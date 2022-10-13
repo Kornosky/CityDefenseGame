@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Barricade : Structure, IPlaceable
+public class Barricade : UnitStructure, IPlaceable
 {
     private TweenBase placingTween;
     public bool isFlammable;
@@ -53,12 +53,12 @@ public class Barricade : Structure, IPlaceable
         {
             spriteRenderer.color = Color.white;
             placingTween?.Cancel();
-            rb.isKinematic = false;
+            //rb.isKinematic = false;
             Activate(true);
             //Needs to be built
             if(info.buildTime > 0)
             {
-                Unbuilt();
+               // Unbuilt();
                 PlayerManager.Instance.AddStructureToQueue(this);
             }
         }
@@ -67,16 +67,16 @@ public class Barricade : Structure, IPlaceable
 
     public void Built(bool isBuilt)
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
     }
 
     protected override void Action()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
     }
 
     public override void TryAction()
     {
-        throw new System.NotImplementedException();
+        Debug.LogWarning("Not implemented");
     }
 }

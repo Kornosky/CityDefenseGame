@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  [RequireComponent(typeof(Range))]
-public class Turret : Structure, IPlaceable
+public class Turret : UnitStructure, IPlaceable
 {
     private TweenBase placingTween;
     private Range range;
@@ -20,7 +20,7 @@ public class Turret : Structure, IPlaceable
             Debug.Log(coll);
             if (coll.bounds.Contains(bound.min) && coll.bounds.Contains(bound.max) && !coll.gameObject.CompareTag("Ground") )
             {
-                if(coll.gameObject != gameObject && coll.GetComponent<Structure>())
+                if(coll.gameObject != gameObject && coll.GetComponent<UnitStructure>())
                 {
                     Debug.Log("Contained in " + coll.gameObject);
                     spriteRenderer.color = Color.green;
@@ -52,7 +52,7 @@ public class Turret : Structure, IPlaceable
             //Needs to be built
             if (info.buildTime > 0)
             {
-                Unbuilt();
+               // Unbuilt();
                 PlayerManager.Instance.AddStructureToQueue(this);
             }
         }

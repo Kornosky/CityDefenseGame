@@ -19,7 +19,7 @@ public class GameManager : SingletonDDOL<GameManager>
     LoadingScreen loadingScreen;
     #region Debug
     [Header("Debug")]
-    public bool isDebug;
+    public bool isDebug = true;
     public bool isAnimationDebug;
     [SerializeField] public bool resetSaveInformation;
     public bool paused;

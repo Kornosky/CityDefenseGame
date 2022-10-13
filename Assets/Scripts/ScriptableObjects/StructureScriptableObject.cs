@@ -6,7 +6,6 @@ using UnityEngine;
 public class StructureScriptableObject : UnitScriptableObject
 {
     [Header("Structure")]
-    public bool isStructure;
     public float buildTime;
     public int workersRequired;
 }

@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Worker : Entity
 {
-    private Structure currentBuildJob;
+    private Component currentGoal;
     private WorkerTrigger currentTrigger;
     private bool isOnTheJob;
+
+    public Component CurrentGoal { get => currentGoal; set => currentGoal = value; }
+
     protected override void Start()
     {
         base.Start();
        
         PlayerManager.Instance.structureRequestedAction.AddListener(StartJob);
         PlayerManager.Instance.structureCancelledAction.AddListener(EndJob);
+        LevelManager.Instance.workers.Add(this);
 
         var job = PlayerManager.Instance.CheckForStructures();
         if (job)
@@ -20,22 +25,11 @@ public class Worker : Entity
         else
             CheckForResources();
     }
-    public Structure GetBuildJob()
-    {
-        return currentBuildJob;
+    public UnitStructure GetBuildJob()
+    {        
+        return currentGoal as UnitStructure; //return null if current goal isnt a unitstructure
     }
-    public virtual void Build()
-    {
-        StartCoroutine("Building");
-    }
-    IEnumerator Building()
-    {
-        while (!currentTrigger.Build(Time.deltaTime))
-        {
-            yield return new WaitForEndOfFrame();
-        }
-        CheckForResources();
-    }
+
     public void CancelBuilding()
     {
         StopAllCoroutines();
@@ -43,79 +37,70 @@ public class Worker : Entity
     public void EnteredTrigger(WorkerTrigger source)
     {
         this.currentTrigger = source;
-        StartBuilding();
+        //StartAction();
     }
     public void ExitSource(WorkerTrigger source)
     {
         this.currentTrigger = null;
         if(currentTrigger == source) //left the previous trigger
-            StopBuilding();
+            StopAction();
     }
-    public void StartBuilding()
+
+    public void StopAction()
     {
-        Build();
-    }
-    public void StopBuilding()
-    {
-        if (currentBuildJob == null) //messes with the coroutine otherwise if colliders are together
+        if (currentGoal == null) //messes with the coroutine otherwise if colliders are together
             return;
         CancelBuilding();
     }
-    private void StartJob(Structure job)
+    private void StartJob(UnitStructure job)
     {
-        //Probably need to just grab the closest workers.....
-        //if (job.HasWorkerLimit())
-        //    return;
-        if (isOnTheJob) //already on a job
-            return;
         job.AddWorker(this);
         isOnTheJob = true;
-        currentBuildJob = job;
+        currentGoal = job;
         ChangeTarget(job.transform);
     }
-    public void EndJob(Structure job)
+    public override void ScanForGoal()
+    {
+        if (isOnTheJob) //already on a job
+            return;
+        var jobs = PlayerManager.Instance.CheckForStructures();
+        if (jobs && !isOnTheJob)  // If there is a job available and not already on one
+            StartJob(jobs);
+        else if (CheckForResources())        // Search for Resource
+
+        { }
+        else
+            ChangeTarget(homeBase);
+    }
+
+    public void EndJob(UnitStructure job)
     {
         //NOt me!
-        if (job != currentBuildJob)
+        if (job != currentGoal)
             return;
         isOnTheJob = false;
-        currentBuildJob = null;
-        CheckForResources();
-        //Check for another job
-        var jobs = PlayerManager.Instance.CheckForStructures();
-        if (jobs)
-            StartJob(jobs);
+        currentGoal = null;
+        ScanForGoal();
     }
     //Check for resources to start mining if available
     bool CheckForResources()
     {
-        KeyValuePair<Collider2D, float> closest = new KeyValuePair<Collider2D, float>(null, Mathf.Infinity);
-        float distance = Mathf.Infinity;
-        foreach(var coll in Physics2D.OverlapCircleAll(transform.position, info.range))
+        
+        if (LevelManager.Instance.observedResourceCollection.Count != 0)
         {
-            if (coll.GetComponent<WorkerTrigger>() == null)
-                continue;
-            distance = Vector2.Distance(coll.transform.position, transform.position);
-            if (distance < closest.Value )
+            foreach (var item in LevelManager.Instance.observedResourceCollection.OrderBy(o => Vector2.Distance(o.transform.position, transform.position)).ToList())
             {
-                closest = new KeyValuePair<Collider2D, float>(coll, distance);
-            }
-        }
-
-        if (closest.Key != null)
-        {
-            ChangeTarget(closest.Key.transform);
+                // Check if available then break if available
+                currentGoal = item;
+                ChangeTarget(item.transform);
+                break;
+            }             
 
             return true;
         }
         else
-        {
-            ChangeTarget(homeBase);
             return false;
-        }
-    }
-    private void StartBuilding(Collision2D target)
-    {
+        
     }
 
     protected override void OnDestroy()
@@ -133,5 +118,9 @@ public class Worker : Entity
     public override void TryAction()
     {
         //throw new System.NotImplementedException();
+    }
+    public void Destroy()
+    {
+        LevelManager.Instance.workers.Remove(this);
     }
 }

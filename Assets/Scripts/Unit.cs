@@ -48,6 +48,8 @@ public abstract class Unit : MonoBehaviour, IDamageable
     GameObject manaPrefab;
     GameObject vfxPrefab;
 
+    public UnitScriptableObject Info { get => info;}
+
     protected virtual void Awake()
     {
         actionCollider ??= GetComponentInChildren<ActionCollider>(true);
@@ -85,6 +87,12 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         goalTarget = location;
     }
+    // Scan for goalTarget if none exist
+    public virtual void ScanForGoal()
+    {
+        goalTarget = homeBase;
+    }
+
     public void DropPickup()
     {
         if(Random.Range(0f, 1f) > .5f)
@@ -171,6 +179,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         return info;
     }
+
     public bool IsOpponent(GameObject toCheck)
     {
         if(isEnemy)

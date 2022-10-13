@@ -63,6 +63,5 @@ MonoBehaviour:
     _keys: 
     _values: []
   isUnlocked: 0
-  isStructure: 0
-  buildTime: 0
-  workersRequired: 0
+  buildTime: 5
+  workersRequired: 1

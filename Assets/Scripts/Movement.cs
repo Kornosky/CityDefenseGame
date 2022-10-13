@@ -12,7 +12,6 @@ public class Movement : MonoBehaviour
     protected bool isFacingRight;
     protected Rigidbody2D rb;
 
-
     public float toVel = .1f;
     public float maxVel = 1.0f;
     public float maxForce = 20.0f;
@@ -60,6 +59,10 @@ public class Movement : MonoBehaviour
             ////if the linecast hits a structure, then 
             //if(Physics2D.Linecast())
             Move();
+        }
+        else if (unit.goalTarget == null)
+        {
+            unit.ScanForGoal();
         }
     }
     protected virtual void OnCollisionEnter2D(Collision2D collision)

@@ -16,9 +16,6 @@ MonoBehaviour:
   description: 
   sprite: {fileID: 21300000, guid: 5cb32238f09ef884bbdf3d0c4007d748, type: 3}
   prefab: {fileID: 1394609040356884892, guid: 3a22433dc4b551e4ca5f5d1d7d690ab1, type: 3}
-  isStructure: 1
-  buildTime: 13.86
-  workersRequired: 1
   cooldownPeriod: 1
   cost: 1
   health: 5
@@ -46,7 +43,7 @@ MonoBehaviour:
       draggable: 1
       expandable: 1
       multipleSelection: 1
-      isExpanded: 0
+      isExpanded: 1
       label:
         m_Text: Keys
         m_Image: {fileID: 0}
@@ -61,7 +58,7 @@ MonoBehaviour:
       elementNameOverride: 
       elementIcon: {fileID: 0}
     reqReferences: {fileID: 0}
-    isExpanded: 0
+    isExpanded: 1
     _keyValues: 
     _keys: 
     _values: []

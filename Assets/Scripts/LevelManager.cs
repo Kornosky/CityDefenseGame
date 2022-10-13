@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using UnityEngine;
 /// <summary>
 /// Loads and handles the level based off a profile
@@ -12,6 +13,8 @@ public class LevelManager : Singleton<LevelManager>
     public event Action<LevelState, LevelState> OnGameStateChange;
     LevelState previousState;
     LevelState currentState;
+    public ObservableCollection<MonoBehaviour> observedResourceCollection = new ObservableCollection<MonoBehaviour>();
+    public ObservableCollection<MonoBehaviour> workers = new ObservableCollection<MonoBehaviour>();
     [Header("Debug")]
     public bool isDebug;
     public enum LevelState
@@ -49,7 +52,18 @@ public class LevelManager : Singleton<LevelManager>
         {
             LoadLevel(Resources.Load<LevelScriptableObject>("Levels/DebugLevel"));
         }
+
+        observedResourceCollection.CollectionChanged += ObservedResourceCollection_CollectionChanged;
     }
+
+    private void ObservedResourceCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        foreach(Worker worker in workers)
+        {
+            worker.ScanForGoal();
+        }
+    }
+
     public void UnloadLevel()
     {
         //Check if level was won

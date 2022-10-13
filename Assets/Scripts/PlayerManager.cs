@@ -5,8 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable] public class StructureRequested : UnityEvent<Structure> { }
-[System.Serializable] public class StructureCancelled : UnityEvent<Structure> { }
+[System.Serializable] public class StructureRequested : UnityEvent<UnitStructure> { }
+[System.Serializable] public class StructureCancelled : UnityEvent<UnitStructure> { }
 public class PlayerManager : Singleton<PlayerManager>
 {
     private int money;
@@ -25,7 +25,7 @@ public class PlayerManager : Singleton<PlayerManager>
     private bool isPlacingCancelled;
     private bool isPlaced;
     public List<Unit> activeUnits = new List<Unit>();
-    [SerializeField] private List<Structure> structureBuildQueue = new List<Structure>();
+    [SerializeField] private List<UnitStructure> structureBuildQueue = new List<UnitStructure>();
     public StructureRequested structureRequestedAction;
     public StructureCancelled structureCancelledAction;
     public Transform enemyBase;
@@ -50,19 +50,25 @@ public class PlayerManager : Singleton<PlayerManager>
         InvokeRepeating("ManaTick", 0, 2);
     }
 
-    public void AddStructureToQueue(Structure structure)
+    public void AddStructureToQueue(UnitStructure structure)
     {
         structureBuildQueue.Add(structure);
         structureRequestedAction.Invoke(structure);
     }
-    public void RemoveStructureFromQueue(Structure structure)
+    public void RemoveStructureFromQueue(UnitStructure structure)
     {
         structureBuildQueue.Remove(structure);
     }
-    public Structure CheckForStructures()
+    public UnitStructure CheckForStructures()
     {
-        if(structureBuildQueue.Count > 0)
-            return structureBuildQueue[0];
+        if(structureBuildQueue.Count != 0)
+            //Search through queue and find a structure that hasn't hit their limit
+            foreach(UnitStructure structure in structureBuildQueue)
+            {
+                if(!structure.IsAtWorkerLimit())
+                    return structure;
+            }
+
         return null;
     }
     public void SpawnUnit(UnitScriptableObject unit)

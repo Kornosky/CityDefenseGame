@@ -37,7 +37,7 @@ public class Archer : Entity
             isActing = false;
             return;
         }
-        var gObj = (MonoBehaviour) actionCollider.GetTarget();
+        var gObj = (Component) actionCollider.GetTarget();
         range.LaunchProjectile(gObj.transform.position);
 
         //Recoil

@@ -31,7 +31,7 @@ public class Flying : Movement
 
     protected override void Move()
     {
-        //If there is no goal target...
+        //If there is no goal target... There should always be one tho
         if (unit.goalTarget == null)
             return;
 
