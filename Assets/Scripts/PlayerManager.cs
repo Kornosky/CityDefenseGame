@@ -86,7 +86,7 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     public bool CheckPurchase(UnitScriptableObject unit)
     {
-        if (GameManager.Instance.isDebug)
+        if (GameManager.Instance.debugDict["UnlimitedMoney"])
             return true;
         if (Money - unit.Cost >= 0)
         {
@@ -99,6 +99,8 @@ public class PlayerManager : Singleton<PlayerManager>
     }
     public bool CheckCast(AbilityScriptableObject unit)
     {
+        if (GameManager.Instance.debugDict["UnlimitedMana"])
+            return true;
         if (Mana - unit.manaCost >= 0)
         {
             return true;

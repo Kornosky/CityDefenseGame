@@ -26,7 +26,9 @@ public class AbilityButton : CooldownButton<AbilityScriptableObject>
         //pressed again while active
         if (isActive)
         {
+            // Deactivate
             AbilityManager.Instance.ChangeAbility(null);
+            SFXManager.Main.PlayFromSFXObjectLibrary(string.Format("AbilityButton_OnPressed_Deactivate_{0}",info.abilityName)); 
             Deactivate();
             return;
         }
@@ -37,7 +39,7 @@ public class AbilityButton : CooldownButton<AbilityScriptableObject>
         if (PlayerManager.Instance.CheckCast(info))
         {
             info.Begin();
-
+            SFXManager.Main.PlayFromSFXObjectLibrary(string.Format("AbilityButton_OnPressed_Activate_{0}", info.abilityName));
             Activate();
             AbilityManager.Instance.ChangeAbility(info);
             info.onActionCompleted.AddListener(() => StartCoroutine(Wait()));

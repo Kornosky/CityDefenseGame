@@ -19,15 +19,15 @@ public class GameManager : SingletonDDOL<GameManager>
     LoadingScreen loadingScreen;
     #region Debug
     [Header("Debug")]
-    public bool isDebug = true;
+    public bool isDebug = false;
     public bool isAnimationDebug;
     [SerializeField] public bool resetSaveInformation;
     public bool paused;
     public PlayerData Data { get => data; set { data = value; updateStatsAction.Invoke(); } }
     public Dictionary<string, bool> debugDict = new Dictionary<string, bool>(){
-        {"Spawn For Enemy", true },
-        {"Unlimited Money", false },
-        {"Unlimited Mana", false }
+        {"Spawn For Enemy", false },
+        {"UnlimitedMoney", true },
+        {"UnlimitedMana", true }
     };
 
     #endregion

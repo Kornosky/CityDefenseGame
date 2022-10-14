@@ -1,34 +1,11 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1334502964511706159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2997578058714971808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 387a2ff12d818454191a273b8eb2e28d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info: {fileID: 11400000, guid: 551fb9f1815fbb64383da112673a02a2, type: 2}
-  isEnemy: 0
-  hpBar: {fileID: 2084817207680409897}
-  stateMachine: {fileID: 644078636681009613}
-  isActing: 0
-  projectile: {fileID: 0}
-  projSpawnLoc: {fileID: 0}
-  toVel: 0.1
-  maxVel: 1
-  maxForce: 20
-  gain: 5
-  isInvicible: 0
 --- !u!1001 &2438022427495867753
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 597871713382194114, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
@@ -83,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3720648823514680449, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3720648823514680449, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8866278349003795484, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
       propertyPath: m_Color.b
       value: 0.040850773
@@ -97,10 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 597871713382194114, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+    m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
---- !u!1 &2997578058714971808 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 597871713382194121, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+--- !u!95 &644078636681009613 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2964954465101790372, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
   m_PrefabInstance: {fileID: 2438022427495867753}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2084817207680409897 stripped
@@ -114,8 +100,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f875b8f9d9009b348b1c112f459cd863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &644078636681009613 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2964954465101790372, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
+--- !u!1 &2997578058714971808 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 597871713382194121, guid: dfa1e6a7c8be8db439c66257e5b80dcd, type: 3}
   m_PrefabInstance: {fileID: 2438022427495867753}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1334502964511706159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2997578058714971808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 387a2ff12d818454191a273b8eb2e28d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnemy: 0
+  hpBar: {fileID: 2084817207680409897}
+  stateMachine: {fileID: 644078636681009613}
+  goalTarget: {fileID: 0}
+  isActing: 0
+  isGrounded: 0
+  homeBase: {fileID: 0}
+  isInvicible: 0

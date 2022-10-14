@@ -180,6 +180,24 @@ public abstract class Unit : MonoBehaviour, IDamageable
         return info;
     }
 
+    //Flip components of entity that need to be in the direction they're facing
+    public void FlipComponents(bool isFacingLeft)
+    {
+        // Manual correction, this isn't great
+        if(isFacingLeft)
+        {
+            if (actionCollider.gameObject.transform.localPosition.x > 0)
+                actionCollider.gameObject.transform.localPosition *= -Vector2.one;
+        }
+        else
+        {
+            if (actionCollider.gameObject.transform.localPosition.x < 0)
+                actionCollider.gameObject.transform.localPosition *= -Vector2.one;
+        }
+        //# Transform collider = GetComponent<Collider2D>().gameObject.transform.localScale;
+        //        collider.localScale 
+    }
+
     public bool IsOpponent(GameObject toCheck)
     {
         if(isEnemy)

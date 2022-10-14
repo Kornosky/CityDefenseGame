@@ -15,7 +15,6 @@ public abstract class UnitStructure : Unit
     protected bool isActive;
     protected Rigidbody2D rb;
 
-    [SerializeField] WorkerTrigger workerTrigger;
 
     public override void Init(bool isEnemy, UnitScriptableObject info = null)
     {

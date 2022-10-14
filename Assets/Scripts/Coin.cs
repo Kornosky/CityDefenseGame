@@ -14,6 +14,8 @@ public class Coin : Pickup
     }
     protected override void OnCollect()
     {
+        SFXManager.Main.PlayFromSFXObjectLibrary(string.Format("Coin_OnCollect"));
+
         PlayerManager.Instance.Money += 1;
 
         base.OnCollect();

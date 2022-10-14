@@ -8,14 +8,11 @@ public class BuildableStructure : WorkerInteractable
     protected bool isActive;
     protected Rigidbody2D rb;
     protected UnitStructure unitStructure;
-
-    [SerializeField] WorkerTrigger workerTrigger;
     
     protected override void Awake()
     {
         base.Awake();
 
-        workerTrigger ??= GetComponentInChildren<WorkerTrigger>();
         rb ??= GetComponentInChildren<Rigidbody2D>();
         unitStructure ??= GetComponentInChildren<UnitStructure>();
 

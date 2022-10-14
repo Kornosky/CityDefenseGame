@@ -6,7 +6,6 @@ using System;
 [CanEditMultipleObjects]
 public class CheatWindow : EditorWindow
 {
-
     PlayerData data = null;
 
     // Add menu item named "My Window" to the Window menu
