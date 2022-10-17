@@ -83,7 +83,7 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         return hpBar.GetHealth();
     }
-    protected void ChangeTarget(Transform location)
+    public void ChangeTarget(Transform location)
     {
         goalTarget = location;
     }
@@ -194,8 +194,6 @@ public abstract class Unit : MonoBehaviour, IDamageable
             if (actionCollider.gameObject.transform.localPosition.x < 0)
                 actionCollider.gameObject.transform.localPosition *= -Vector2.one;
         }
-        //# Transform collider = GetComponent<Collider2D>().gameObject.transform.localScale;
-        //        collider.localScale 
     }
 
     public bool IsOpponent(GameObject toCheck)

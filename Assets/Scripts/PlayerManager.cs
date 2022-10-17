@@ -9,6 +9,7 @@ using UnityEngine.Events;
 [System.Serializable] public class StructureCancelled : UnityEvent<UnitStructure> { }
 public class PlayerManager : Singleton<PlayerManager>
 {
+    [SerializeField] int SELECTION_RADIUS = 200;
     private int money;
     private int mana;
     [SerializeField] private int moneyPassiveIncrease = 1;
@@ -33,10 +34,16 @@ public class PlayerManager : Singleton<PlayerManager>
     public AbilityScriptableObject currentAbility;
     public Canvas playerCanvas;
     [Header("Temp")]
-    public GameObject winScreen;
-    public GameObject loseScreen;
+    [SerializeField] GameObject winScreen;
+    [SerializeField] GameObject loseScreen;
+    [SerializeField] CommandWheel commandWheel;
     private bool hasLoaded;
     public bool levelWin;
+    private float timeSinceTouchBegin;
+    private bool isLongHold;
+    private bool isHeld;
+    private Vector3 startingTouchLocation;
+
     public int Money { get => money; set { money = value; if(moneyText) moneyText.text = money.ToString(); PlayerRecording.Instance.MoneyEarnedTotal += 1; } }
     //temp solution
     public int Mana { get => mana; set { mana = value; if (manaText) manaText.text = mana.ToString(); } }
@@ -142,19 +149,45 @@ public class PlayerManager : Singleton<PlayerManager>
             {
                 // Record initial touch position.
                 case TouchPhase.Began:
+                    startingTouchLocation = touch.position;
+                    isHeld = true;
                     break;
 
-                // Determine direction by comparing the current touch position with the initial one.
+                // Determine direction by omaring the current touch position with the initial one.
                 case TouchPhase.Moved:
-             
-
+                    // If finger moves too far, then it's not being held in place anymore
+                    if(Mathf.Abs(Vector3.Distance(startingTouchLocation, touch.position)) > 100)
+                    {
+                        isHeld = false;
+                    }
+                    break;
+                // A finger is touching the screen but hasn't moved.
+                case TouchPhase.Stationary:                 
                     break;
 
                 // Report that a direction has been chosen when the finger is lifted.
                 case TouchPhase.Ended:
+                    timeSinceTouchBegin = 0;
+                    isLongHold = false;
+                    
+                    CameraController.Instance.LockCameraControl(false);
+                    commandWheel.Despawn();
                     break;
             }
 
+            // Determine if long press and don't go past if-so
+            timeSinceTouchBegin += Time.deltaTime;
+            if (timeSinceTouchBegin > .5f && !isLongHold && isHeld)
+            {
+                CameraController.Instance.LockCameraControl(true);
+                commandWheel.Spawn(Camera.main.WorldToScreenPoint(touchLoc));
+                isLongHold = true;
+            }
+            else if (isLongHold)
+                commandWheel.UpdateVisuals(Camera.main.WorldToScreenPoint(touchLoc));
+                return;
+
+            /////////// Tapping actions
             //Handle what is being touched here (negate collider overlap with logic)
             Collider2D[] hits = Physics2D.OverlapCircleAll(touchLoc, .3f);
             foreach (Collider2D hit in hits)
@@ -253,6 +286,30 @@ public class PlayerManager : Singleton<PlayerManager>
         }
      //   onFinished.Invoke();
 
+    }
+    public void Charge()
+    {
+        // get allies in area and give retreat        
+        Vector3 touchLoc = Camera.main.ScreenToWorldPoint(commandWheel.transform.position);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(touchLoc, SELECTION_RADIUS);
+        foreach (Collider2D collider in colliders)
+        {
+            Unit selectedUnit = collider.GetComponent<Unit>();
+            if (selectedUnit != null && !selectedUnit.isEnemy)
+                selectedUnit.ChangeTarget(enemyBase.transform);
+        }
+    }
+    public void Retreat()
+    {
+        // get allies in area and give retreat        
+        Vector3 touchLoc = Camera.main.ScreenToWorldPoint(commandWheel.transform.position);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(touchLoc, SELECTION_RADIUS);
+        foreach (Collider2D collider in colliders)
+        {
+            Unit selectedUnit = collider.GetComponent<Unit>();
+            if (selectedUnit != null && !selectedUnit.isEnemy)
+                selectedUnit.ChangeTarget(playerBase.transform);
+        }
     }
     public void GameOver(bool isWin)
     {
