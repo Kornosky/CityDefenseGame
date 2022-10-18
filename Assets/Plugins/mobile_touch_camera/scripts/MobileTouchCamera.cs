@@ -40,9 +40,14 @@ namespace BitBenderGames {
     [SerializeField]
     [Tooltip("These values define the scrolling borders for the camera. The camera will not scroll further than defined here. When a top-down camera is used, these 2 values are applied to the X/Z position.")]
     private Vector2 boundaryMin = new Vector2(-1000, -1000);
+    private Vector2 _boundaryMin = new Vector2(-1000, -1000);
     [SerializeField]
     [Tooltip("These values define the scrolling borders for the camera. The camera will not scroll further than defined here. When a top-down camera is used, these 2 values are applied to the X/Z position.")]
     private Vector2 boundaryMax = new Vector2(1000, 1000);
+    private Vector2 _boundaryMax = new Vector2(1000, 1000);
+    [SerializeField]
+    [Tooltip("As the boundary changes, the zoom value has to be lerped, this defines the smoothing/speed of it.")]
+    private float camZoomLerpSmoothing = .1f;
     [Header("Advanced")]
     [SerializeField]
     [Tooltip("The lower the value, the slower the camera will follow. The higher the value, the more direct the camera will follow movement updates. Necessary for keeping the camera smooth when the framerate is not in sync with the touch input update rate.")]
@@ -155,6 +160,7 @@ namespace BitBenderGames {
     private bool isPinchTiltMode;
     private Vector3 camVelocity = Vector3.zero;
     private Vector3 posLastFrame = Vector3.zero;
+    private float _zoomFactor = 0;
 
     private float timeRealDragStop;
 
@@ -474,6 +480,9 @@ namespace BitBenderGames {
       if(string.IsNullOrEmpty(cameraAxesError) == false) {
         Debug.LogError(cameraAxesError);
       }
+
+            _boundaryMax = boundaryMax;
+            _boundaryMin = boundaryMin;
     }
 
     public void Start() {
@@ -763,7 +772,11 @@ namespace BitBenderGames {
             float zoomFactor = (pinchDistanceStart / Mathf.Max(((pinchDistanceCurrentLerp - pinchDistanceStart) * customZoomSensitivity) + pinchDistanceStart, 0.0001f));
             float cameraSize = pinchStartCamZoomSize * zoomFactor;
             cameraSize = Mathf.Clamp(cameraSize, camZoomMin - camOverzoomMargin, camZoomMax + camOverzoomMargin);
-            if(enableZoomTilt == true) {
+                        // Smooth boundary modifying, so the zoom has an inverse relationship
+                        _zoomFactor = Mathf.Lerp(_zoomFactor, zoomFactor, camZoomLerpSmoothing);
+                        BoundaryMax = _boundaryMax * 2 / (_zoomFactor + 1);
+                        BoundaryMin = _boundaryMin * 2 / (_zoomFactor + 1);
+            if (enableZoomTilt == true) {
               UpdateTiltForAutoTilt(cameraSize);
             }
             CamZoom = cameraSize;

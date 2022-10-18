@@ -5,6 +5,8 @@ using System.Linq;
 using AMPInternal;
 using AMPInternal.Coroutines.SFX;
 using AMPInternal.EventBinding;
+using System.IO;
+using UnityEditor;
 
 /// <summary>The SFXManager handles all the sound effects in the scene. The component should only be used once in the scene, and all of its functionality can be accessed via SFXManager.Main</summary>
 public class SFXManager : SoundManager
@@ -53,6 +55,27 @@ public class SFXManager : SoundManager
             Destroy(gameObject);
         }
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Update library fro m folder")]
+    void UpdateLibraryFromFolder()
+    {
+        string[] files = Directory.GetFiles("D:\\UnityProjects\\ProjectCityDefense\\Assets\\Plugins\\QFSW\\Audio Manager Pro\\SFXObjects", "*.asset", SearchOption.TopDirectoryOnly);
+        List<SFXObject> listOfObjects = new List<SFXObject>();
+        foreach (string file in files)
+        {
+            // Needs to start at 'Asset/' and have forward slashes 
+            string adjustedFile = file.Split("ProjectCityDefense\\")[1].Replace('\\','/');
+            var sfxObject = AssetDatabase.LoadAssetAtPath<Object>(adjustedFile);
+            if(sfxObject != null)
+            {
+                listOfObjects.Add((SFXObject) sfxObject);
+            }              
+        }
+        SFXObjectLibrary =listOfObjects.ToArray();
+    }
+#endif
+
     #endregion
 
     #region LibraryPlayback

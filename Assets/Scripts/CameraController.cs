@@ -78,7 +78,6 @@ public class CameraController : SingletonDDOL<CameraController>
     public void LockCameraControl(bool isLocked)
     {
         touchInputController.IsInputOnLockedArea = isLocked;
-        Debug.LogWarning("Input is locked? : " + isLocked);
     }
 
     public void UnlockFromTarget()

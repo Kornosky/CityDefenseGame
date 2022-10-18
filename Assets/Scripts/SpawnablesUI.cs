@@ -29,16 +29,9 @@ public class SpawnablesUI : MonoBehaviour
         var buttonUI = ui.GetComponent<SpawnableButton>();
         buttonUI.Init(unit);
     }
-
-    public void Switch(string n)
+    void ActivateMenu(string n)
     {
-        Debug.Log(n);
-        //deactivate all if active
-        foreach (var menu in menus) if(menu.gameObject.activeSelf) menu.gameObject.SetActive(false);
-        //if it's the same button pressed, turn off all
-        if (currentMenu == n)
-            return;
-        switch(n)
+        switch (n)
         {
             case "Unit":
                 units.gameObject.SetActive(true);
@@ -49,5 +42,20 @@ public class SpawnablesUI : MonoBehaviour
             case "Misc":
                 break;
         }
+        currentMenu = n;
+    }
+
+    public void Switch(string n)
+    {
+        //deactivate all if active
+        foreach (var menu in menus) if(menu.gameObject.activeSelf) menu.gameObject.SetActive(false);
+        //if it's the same button pressed, turn off all
+        if (currentMenu == n)
+        {
+            currentMenu = "";
+            return;
+        }
+           
+        ActivateMenu(n);
     }
 }

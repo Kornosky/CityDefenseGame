@@ -112,7 +112,8 @@ public class Worker : Entity
 
     protected override void Action()
     {
-       // throw new System.NotImplementedException();
+        base.Action();
+        // throw new System.NotImplementedException();
     }
 
     public override void TryAction()

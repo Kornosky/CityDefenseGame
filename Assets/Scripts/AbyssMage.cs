@@ -25,6 +25,7 @@ public class AbyssMage : Entity
     }
     protected override void Action()
     {
+        base.Action();
         Attack();
     }
     private void Attack()
@@ -38,6 +39,7 @@ public class AbyssMage : Entity
 
         //range.LaunchProjectile((gObj.transform.position - transform.position).normalized * Random.Range(0f, 4f));
         range.LobProjectile(gObj.transform.position);
+        FaceTarget(gObj.transform);
 
         //Recoil
         //Still knockback and wait even if there was no target (empty swing)

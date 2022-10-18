@@ -11,12 +11,11 @@ public class SFXObject : ScriptableObject
 #endif
     /// <summary>(Optional) The name of this SFXObject.</summary>
     [Tooltip("(Optional) The name of this SFXObject.")]
-    public string SFXName;
+    [HideInInspector] public string SFXName;
 
     /// <summary>The different SFXLayers in this SFXObject.</summary>
     [Tooltip("The different SFXLayers in this SFXObject.")]
     public SFXLayer[] SFXLayers = new SFXLayer[1];
-
 
     /// <summary>If the volume of the sound should be randomized.</summary>
     [Tooltip("If the volume of the sound should be randomized.")]
@@ -94,6 +93,13 @@ public class SFXObject : ScriptableObject
 		if (System.String.IsNullOrEmpty(SFXName)) { NameString = name; }
 		return NameString;
 	}
+
+    private void OnValidate()
+    {
+        // Enforce the name being the name for the file. Convention ftw
+        if(SFXName != this.name)            
+            SFXName = this.name;
+    }
 
     /// <summary>Resets the SFXObject to its untampered state.</summary>
     private void Reset()

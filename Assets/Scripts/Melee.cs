@@ -29,6 +29,7 @@ public class Melee : Entity
     }
     protected override void Action()
     {
+        base.Action();
         Attack();
     }
     private void Attack()

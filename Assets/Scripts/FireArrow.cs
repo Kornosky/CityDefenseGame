@@ -10,7 +10,6 @@ public class FireArrow : Arrow
     {
         //fire = GetComponent<Fire>();
         fire.gameObject.SetActive(false);
-
     }
 
     private void Start()

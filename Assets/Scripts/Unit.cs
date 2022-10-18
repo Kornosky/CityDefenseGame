@@ -179,7 +179,11 @@ public abstract class Unit : MonoBehaviour, IDamageable
     {
         return info;
     }
-
+    public void Highlight()
+    {
+       // spriteRenderer.color = spriteRenderer.color * 0;
+        //insert highlighting code
+    }
     //Flip components of entity that need to be in the direction they're facing
     public void FlipComponents(bool isFacingLeft)
     {
@@ -187,12 +191,12 @@ public abstract class Unit : MonoBehaviour, IDamageable
         if(isFacingLeft)
         {
             if (actionCollider.gameObject.transform.localPosition.x > 0)
-                actionCollider.gameObject.transform.localPosition *= -Vector2.one;
+                actionCollider.gameObject.transform.localPosition *= new Vector2(-1,1);
         }
         else
         {
             if (actionCollider.gameObject.transform.localPosition.x < 0)
-                actionCollider.gameObject.transform.localPosition *= -Vector2.one;
+                actionCollider.gameObject.transform.localPosition *= new Vector2(-1, 1);
         }
     }
 

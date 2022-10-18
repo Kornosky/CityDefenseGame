@@ -1,0 +1,207 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!181963792 &2655988077585873504
+Preset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SFXObject
+  m_TargetType:
+    m_NativeTypeID: 114
+    m_ManagedTypePPtr: {fileID: 11500000, guid: 12c620a45fbaaa043a861b59517bc4a4, type: 3}
+    m_ManagedTypeFallback: 
+  m_Properties:
+  - target: {fileID: 0}
+    propertyPath: m_Enabled
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorHideFlags
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorClassIdentifier
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: CollapseEditions
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXName
+    value: Archer_Action
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.size
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].LayerName
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].SFX
+    value: 
+    objectReference: {fileID: 8300000, guid: 6895dfbff4c392b41a427b5bdff9847a, type: 3}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].RandomizeVolume
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].FixedVolume
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MinVolume
+    value: 0.7590114
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MaxVolume
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].RandomizePitch
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].FixedPitch
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MinPitch
+    value: 1.2626806
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MaxPitch
+    value: 2.0612454
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].DelaySFX
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].RandomizeDelay
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].FixedDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MinDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MaxDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].Mute
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].BypassEffects
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].BypassReverbZones
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].Priority
+    value: 128
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].StereoPan
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].SpatialBlend
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].ReverbZoneMix
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MixerOverride
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MinDistance
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].MaxDistance
+    value: 20
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: SFXLayers.Array.data[0].RolloffMode
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: RandomizeVolume
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: FixedVolume
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MinVolume
+    value: 0.30539227
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MaxVolume
+    value: 0.80539227
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: RandomizePitch
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: FixedPitch
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MinPitch
+    value: 0.75
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MaxPitch
+    value: 1.5
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: DelaySFX
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: RandomizeDelay
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: FixedDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MinDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MaxDelayTime
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: LimitPolyphony
+    value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MaxVoices
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: MinSeparation
+    value: 0.1
+    objectReference: {fileID: 0}
+  m_ExcludedProperties: []

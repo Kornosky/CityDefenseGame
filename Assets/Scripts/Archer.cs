@@ -27,6 +27,7 @@ public class Archer : Entity
     }
     protected override void Action()
     {
+        base.Action();
         Attack();
     }
 
@@ -39,7 +40,7 @@ public class Archer : Entity
         }
         var gObj = (Component) actionCollider.GetTarget();
         range.LaunchProjectile(gObj.transform.position);
-
+        FaceTarget(gObj.transform);
         //Recoil
         //Still knockback and wait even if there was no target (empty swing)
         float recoilDirection = !isFacingRight ? -1f : 1f;

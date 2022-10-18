@@ -23,13 +23,11 @@ public class Arrow : Projectile
         if (!isInitialized)
             return;
         Unit unit = collision?.gameObject?.GetComponent<Unit>();
+        rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
         if (collision.gameObject.GetComponent<IDamageable>() != null)
         {
             Attack(collision);
-        }
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            RemoveArrow();
         }
     }
 

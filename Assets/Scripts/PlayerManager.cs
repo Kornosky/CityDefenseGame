@@ -181,11 +181,16 @@ public class PlayerManager : Singleton<PlayerManager>
             {
                 CameraController.Instance.LockCameraControl(true);
                 commandWheel.Spawn(Camera.main.WorldToScreenPoint(touchLoc));
+                MarkUnits();
                 isLongHold = true;
             }
             else if (isLongHold)
+            {
+                //TODO I dont think this is so good
+                CameraController.Instance.LockCameraControl(true);
                 commandWheel.UpdateVisuals(Camera.main.WorldToScreenPoint(touchLoc));
                 return;
+            }                  
 
             /////////// Tapping actions
             //Handle what is being touched here (negate collider overlap with logic)
@@ -290,27 +295,36 @@ public class PlayerManager : Singleton<PlayerManager>
     public void Charge()
     {
         // get allies in area and give retreat        
-        Vector3 touchLoc = Camera.main.ScreenToWorldPoint(commandWheel.transform.position);
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(touchLoc, SELECTION_RADIUS);
-        foreach (Collider2D collider in colliders)
-        {
-            Unit selectedUnit = collider.GetComponent<Unit>();
-            if (selectedUnit != null && !selectedUnit.isEnemy)
-                selectedUnit.ChangeTarget(enemyBase.transform);
-        }
+        ActOnUnitsNearInput<Unit>((unit => unit.ChangeTarget(enemyBase.transform)));
     }
     public void Retreat()
     {
         // get allies in area and give retreat        
+        ActOnUnitsNearInput<Unit>((unit => unit.ChangeTarget(playerBase.transform)));
+    }
+    public void Hold()
+    {
+        // get allies in area and give retreat        
+        ActOnUnitsNearInput<Unit>(null);
+    }
+    public void MarkUnits()
+    {
+        // get allies in area and give retreat        
+        ActOnUnitsNearInput<Unit>((unit => unit.Highlight()));
+    }
+
+    private void ActOnUnitsNearInput<T>(Action<Unit> action)
+    {
         Vector3 touchLoc = Camera.main.ScreenToWorldPoint(commandWheel.transform.position);
         Collider2D[] colliders = Physics2D.OverlapCircleAll(touchLoc, SELECTION_RADIUS);
         foreach (Collider2D collider in colliders)
         {
             Unit selectedUnit = collider.GetComponent<Unit>();
             if (selectedUnit != null && !selectedUnit.isEnemy)
-                selectedUnit.ChangeTarget(playerBase.transform);
+                action(selectedUnit);
         }
     }
+
     public void GameOver(bool isWin)
     {
         levelWin = isWin;

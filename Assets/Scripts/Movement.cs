@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour
         }
         Flipped(isFacingRight);
     }
-    protected virtual void Flipped(bool isFacingLeft)
+    public virtual void Flipped(bool isFacingLeft)
     {
         unit.FlipComponents(isFacingLeft);
         spriteRenderer.flipX = isFacingLeft;

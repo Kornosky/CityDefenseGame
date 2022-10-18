@@ -13,18 +13,18 @@ MonoBehaviour:
   m_Name: MenuPress
   m_EditorClassIdentifier: 
   CollapseEditions: 0
-  SFXName: Menu_Press
+  SFXName: MenuPress
   SFXLayers:
   - LayerName: 
-    SFX: {fileID: 8300000, guid: 22e2a95b18ea59d4798b0a8a5f60a8d1, type: 3}
-    RandomizeVolume: 0
+    SFX: {fileID: 8300000, guid: 6895dfbff4c392b41a427b5bdff9847a, type: 3}
+    RandomizeVolume: 1
     FixedVolume: 1
-    MinVolume: 0.5
+    MinVolume: 0.7590114
     MaxVolume: 1
-    RandomizePitch: 0
+    RandomizePitch: 1
     FixedPitch: 1
-    MinPitch: 0.75
-    MaxPitch: 1.5
+    MinPitch: 1.2626806
+    MaxPitch: 2.0612454
     DelaySFX: 0
     RandomizeDelay: 0
     FixedDelayTime: 0
@@ -39,8 +39,8 @@ MonoBehaviour:
     ReverbZoneMix: 0
     MixerOverride: {fileID: 0}
     MinDistance: 1
-    MaxDistance: 500
-    RolloffMode: 0
+    MaxDistance: 20
+    RolloffMode: 1
   RandomizeVolume: 0
   FixedVolume: 1
   MinVolume: 0.30539227
@@ -54,6 +54,6 @@ MonoBehaviour:
   FixedDelayTime: 0
   MinDelayTime: 0
   MaxDelayTime: 0
-  LimitPolyphony: 0
+  LimitPolyphony: 1
   MaxVoices: 0
-  MinSeparation: 0
+  MinSeparation: 0.1
