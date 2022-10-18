@@ -246,7 +246,7 @@ public class PlayerManager : Singleton<PlayerManager>
     IEnumerator PlacingUnit(GameObject unit, Action donePlacingAction)
     {
         isPlacingCancelled = false;
-        Vector3 point = new Vector3();
+        Vector3 point;
         currentPlacingGO = unit;
         isPlaced = false;
         isPlacing = true;
@@ -261,7 +261,9 @@ public class PlayerManager : Singleton<PlayerManager>
                 CameraController.Instance.LockCameraControl(true);
                 Touch touch = Input.GetTouch(0);
                 point = Camera.main.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, Camera.main.nearClipPlane));
-                unit.transform.position = new Vector3(point.x, point.y, 0);
+                RaycastHit2D checkBelow = Physics2D.Raycast(point, Vector2.down);
+                if(checkBelow)
+                    unit.transform.position = Vector2.Lerp(unit.transform.position, new Vector3(point.x, checkBelow.point.y, 0), .05f);
             }
             else
             {

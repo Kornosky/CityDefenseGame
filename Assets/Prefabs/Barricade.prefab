@@ -152,7 +152,6 @@ MonoBehaviour:
   isInvicible: 0
   info: {fileID: 11400000, guid: baf721ab1c16f96409a8788af9301fd5, type: 2}
   buildProgress: 0
-  workerTrigger: {fileID: 822530799721344435}
   isFlammable: 0
 --- !u!114 &7963264859569603512
 MonoBehaviour:
@@ -171,7 +170,6 @@ MonoBehaviour:
   identifyingMonoBehavior: {fileID: 7580227433353171842}
   workerTrigger: {fileID: 822530799721344435}
   interactingWorkers: []
-  workerTrigger: {fileID: 822530799721344435}
 --- !u!114 &822530799721344435 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 649259385208065631, guid: 75d57061a793b9743af3f011bd513041, type: 3}

@@ -3253,7 +3253,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.39
+  orthographic size: 3.8727467
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3299,11 +3299,12 @@ MonoBehaviour:
   cameraAxes: 0
   perspectiveZoomMode: 0
   camZoomMin: 4
-  camZoomMax: 12
-  camOverzoomMargin: 1
-  camOverdragMargin: 5
-  boundaryMin: {x: -12.501271, y: -5.3961496}
-  boundaryMax: {x: 12.031812, y: 6.9045076}
+  camZoomMax: 6.9
+  camOverzoomMargin: 0.33
+  camOverdragMargin: 0.5
+  boundaryMin: {x: -11.385368, y: -2.7044487}
+  boundaryMax: {x: 11.219536, y: 1.1444511}
+  camZoomLerpSmoothing: 0.1
   camFollowFactor: 15
   autoScrollDampMode: 0
   autoScrollDamp: 300
@@ -3384,7 +3385,7 @@ MonoBehaviour:
   OnPickItem2DDoubleClick:
     m_PersistentCalls:
       m_Calls: []
-  keyboardAndMousePlatforms: 07000000020000000000000001000000100000000d00000011000000
+  keyboardAndMousePlatforms: 0700000002000000
   controlTweakablesEnabled: 0
   keyboardControlsModifiers: 34010000330100003201000031010000
   mouseRotationFactor: 0.01

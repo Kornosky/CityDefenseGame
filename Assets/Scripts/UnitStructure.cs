@@ -4,7 +4,6 @@ using UnityEngine;
 /// Needs to be built by worker
 /// </summary
 /// 
-
 public abstract class UnitStructure : Unit
 {
     [Header("Structure Class")]
